@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7kwstgenddjb"]
+
+[ext_resource type="Script" path="res://scripts/towers/tower_zap.gd" id="1_wskcm"]
+[ext_resource type="Texture2D" uid="uid://db51013odxg5a" path="res://assets/sprites/tower_zap.png" id="2_1hlbj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3q56i"]
+size = Vector2(24, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dsb8l"]
+radius = 70.0
+
+[node name="ZapTower" type="StaticBody2D"]
+script = ExtResource("1_wskcm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_1hlbj")
+hframes = 5
+
+[node name="ClickboxCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3q56i")
+
+[node name="EnemyTargeter" type="Area2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTargeter"]
+shape = SubResource("CircleShape2D_dsb8l")
+
+[node name="AttackTimer" type="Timer" parent="EnemyTargeter"]
+
+[node name="ChainTimer" type="Timer" parent="EnemyTargeter"]
+wait_time = 0.05
+one_shot = true

@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://q7yly8jvg20a"]
+
+[ext_resource type="Texture2D" uid="uid://crxdin3okhu7r" path="res://assets/sprites/green-slime.png" id="1_82yke"]
+[ext_resource type="Script" path="res://scripts/green_slime.gd" id="1_svem2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ierv4"]
+size = Vector2(16, 12)
+
+[sub_resource type="Animation" id="Animation_v1l3y"]
+resource_name = "default"
+length = 0.6
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_kr8lr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gvodx"]
+_data = {
+"RESET": SubResource("Animation_kr8lr"),
+"default": SubResource("Animation_v1l3y")
+}
+
+[node name="GreenSlime" type="PathFollow2D"]
+loop = false
+script = ExtResource("1_svem2")
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ierv4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_82yke")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gvodx")
+}
+autoplay = "default"
+
+[node name="FlashTimer" type="Timer" parent="."]
