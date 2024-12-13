@@ -2,7 +2,9 @@ class_name ArcherTower
 extends Tower
 
 func _ready() -> void:
+	tower_type = GameC.TowerType.ARCHER
 	initialize_tower()
+	set_tower_level(level)
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 
 func _process(_delta: float) -> void:
@@ -19,8 +21,19 @@ func _process(_delta: float) -> void:
 	var closest_target: Area2D = get_closest_target(enemy_targeter.global_position, targets)
 	var angle_to_target: float = get_angle_to_closest_target(closest_target)
 	
-	var new_arrow: Arrow = Arrow.create(angle_to_target, GameConst.tower_level_data[tower_type][level]["pierce"], tower_range)
+	var new_arrow: Arrow = Arrow.create(
+		angle_to_target,
+		GameC.t_data[tower_type]["lvl_data"][level]["stats"]["pierce"],
+		tower_range
+	)
 	enemy_targeter.add_child(new_arrow)
 	
 	attack_ready = false
 	attack_timer.start()
+
+func set_tower_level(lvl: int) -> void:
+	level = lvl
+	attack_timer.wait_time = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_rate"]
+	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
+	collision_shape.shape.radius = tower_range
+	sprite.frame = lvl - 1

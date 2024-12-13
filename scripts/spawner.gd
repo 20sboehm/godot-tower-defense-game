@@ -1,8 +1,10 @@
 extends Node2D
 
-signal wave_over
-
 var last_path: int = -1
+var phase: int = 0
+var remaining_enemies: int = 0
+var enemy_type: GameC.EnemyType
+
 @export var game_state: GameStateResource
 
 @onready var spawn_timer: Timer = $SpawnTimer
@@ -10,20 +12,43 @@ var last_path: int = -1
 @onready var enemy_path_2: Path2D = %EnemyPath2
 @onready var enemy_path_3: Path2D = %EnemyPath3
 
-func _on_timer_timeout() -> void:
-	var enemies_to_spawn: Dictionary = GameConst.wave_data[game_state.wave]
-	for enemy_type: int in enemies_to_spawn:
-		if enemies_to_spawn[enemy_type] > 0:
-			spawn_enemy(enemy_type)
-			enemies_to_spawn[enemy_type] -= 1
-			return
-	spawn_timer.stop()
-	wave_over.emit()
 
-func spawn_enemy(e_type: GameConst.Enemy) -> void:
+func _on_timer_timeout() -> void:
+	var wave_data: Array = GameC.level_wave_data[game_state.level][game_state.wave]
+	var phase_data: Dictionary = wave_data[phase]
+	
+	if remaining_enemies == 0:
+		remaining_enemies = phase_data["count"]
+		enemy_type = phase_data["enemy_type"]
+		spawn_timer.stop()
+		spawn_timer.wait_time = phase_data["wait_time"]
+		spawn_timer.start()
+	
+	spawn_enemy(enemy_type)
+	
+	remaining_enemies -= 1
+	if remaining_enemies == 0:
+		if phase + 1 < wave_data.size():
+			phase += 1
+		else:
+			phase = 0
+			spawn_timer.stop()
+			#wave_over.emit()
+			SignalBus.done_spawning.emit()
+
+func spawn_enemy(e_type: GameC.EnemyType) -> void:
 	var path: Path2D = choose_path()
 	
-	path.add_child(GameConst.enemy_objects[e_type].instantiate())
+	# Trying to store the slime object in GameC results in cyclic reference
+	var slime: Enemy
+	match (e_type):
+		GameC.EnemyType.GREEN_SLIME:
+			slime = load("res://scenes/enemies/slime_green.tscn").instantiate()
+		GameC.EnemyType.BLUE_SLIME:
+			slime = load("res://scenes/enemies/slime_blue.tscn").instantiate()
+		GameC.EnemyType.TANK_SLIME:
+			slime = load("res://scenes/enemies/slime_tank.tscn").instantiate()
+	path.add_child(slime)
 
 func choose_path() -> Path2D:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -41,7 +66,6 @@ func choose_path() -> Path2D:
 		3:
 			return enemy_path_3
 		_:
-			print("Something is wrong with path selection")
 			return enemy_path_2
 
 func start_wave() -> void:

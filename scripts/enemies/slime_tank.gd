@@ -3,7 +3,7 @@ extends Enemy
 @onready var health_bar: ProgressBar = $HealthBar
 
 func _ready() -> void:
-	enemy_type = GameC.EnemyType.BLUE_SLIME
+	enemy_type = GameC.EnemyType.TANK_SLIME
 	initialize_enemy()
 	health_bar.value = health
 

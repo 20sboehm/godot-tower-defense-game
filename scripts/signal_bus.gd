@@ -1,13 +1,14 @@
 extends Node
 
 # Enemies
-signal enemy_killed(enemy: GameConst.Enemy)
+signal enemy_killed(enemy: GameC.EnemyType)
 
 # Tower building
-signal update_building_selection(tower: GameConst.Tower)
+signal update_building_selection(tower: GameC.TowerType)
 
 # Wave management
 signal wave_start
+signal done_spawning
 
 # Tower selection
 signal click_tower(tower: Tower)

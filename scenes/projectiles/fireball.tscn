@@ -44,7 +44,6 @@ size = Vector2(18, 4)
 
 [node name="Fireball" type="Area2D"]
 z_index = 15
-z_as_relative = false
 script = ExtResource("1_p603u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -54,3 +53,6 @@ frame_progress = 0.726635
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_0ua6d")
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+one_shot = true

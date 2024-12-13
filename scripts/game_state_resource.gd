@@ -7,4 +7,4 @@ var wave_active: bool = false
 
 var tower_selection: Tower = null
 
-var money: int = 10000
+var money: int = 200

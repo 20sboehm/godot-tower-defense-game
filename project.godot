@@ -13,12 +13,13 @@ config_version=5
 config/name="tower-defense-game"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+run/max_fps=200
 config/icon="res://icon.svg"
 
 [autoload]
 
 SignalBus="*res://scripts/signal_bus.gd"
-GameConst="*res://scripts/game_const.gd"
+GameC="*res://scripts/game_const.gd"
 
 [debug]
 
@@ -28,6 +29,7 @@ gdscript/warnings/untyped_declaration=1
 
 window/size/viewport_width=900
 window/size/viewport_height=900
+window/vsync/vsync_mode=0
 
 [input]
 

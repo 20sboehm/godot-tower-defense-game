@@ -13,7 +13,6 @@ shader_parameter/sprite_width = 20.0
 
 [node name="Zap" type="Sprite2D"]
 z_index = 5
-z_as_relative = false
 material = SubResource("ShaderMaterial_tipb2")
 texture = ExtResource("2_n01p1")
 script = ExtResource("3_l0gxm")

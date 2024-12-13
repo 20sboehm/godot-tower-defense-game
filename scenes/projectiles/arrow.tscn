@@ -8,7 +8,6 @@ size = Vector2(8, 5)
 
 [node name="Arrow" type="Area2D" groups=["arrow"]]
 z_index = 4
-z_as_relative = false
 script = ExtResource("1_1huqb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

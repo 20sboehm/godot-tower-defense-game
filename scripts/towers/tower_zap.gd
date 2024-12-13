@@ -3,6 +3,7 @@ extends Tower
 
 var total_zaps: int = 3
 
+# Data for chain zaps
 var initial_target: Area2D
 var ignored_targets: Array[Area2D] = []
 var additional_zaps: int
@@ -10,11 +11,9 @@ var additional_zaps: int
 @onready var chain_timer: Timer = $EnemyTargeter/ChainTimer
 
 func _ready() -> void:
-	#collision_shape_2d.radius = range
-	#input_pickable = true
-	#attack_timer.timeout.connect(_on_attack_timer_timeout)
-	#set_tower_level(level)
+	tower_type = GameC.TowerType.ZAP
 	initialize_tower()
+	set_tower_level(level)
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	chain_timer.timeout.connect(_on_chain_timer_timeout)
 
@@ -89,3 +88,11 @@ func chain_zaps() -> void:
 	additional_zaps -= 1
 	
 	chain_timer.start()
+
+func set_tower_level(lvl: int) -> void:
+	level = lvl
+	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
+	attack_timer.wait_time = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_rate"]
+	total_zaps = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["zap_count"]
+	collision_shape.shape.radius = tower_range
+	sprite.frame = lvl - 1

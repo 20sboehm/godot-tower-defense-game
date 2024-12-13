@@ -2,11 +2,9 @@ class_name FireballTower
 extends Tower
 
 func _ready() -> void:
-	#collision_shape_2d.radius = range
-	#input_pickable = true
-	#attack_timer.timeout.connect(_on_attack_timer_timeout)
-	#set_tower_level(level)
+	tower_type = GameC.TowerType.FIREBALL
 	initialize_tower()
+	set_tower_level(level)
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 
 func _process(_delta: float) -> void:
@@ -23,8 +21,15 @@ func _process(_delta: float) -> void:
 	var closest_target: Area2D = get_closest_target(enemy_targeter.global_position, targets)
 	var angle_to_target: float = get_angle_to_closest_target(closest_target)
 	
-	var new_fireball: Fireball = Fireball.create(angle_to_target)
+	var new_fireball: Fireball = Fireball.create(angle_to_target, tower_range)
 	enemy_targeter.add_child(new_fireball)
 	
 	attack_ready = false
 	attack_timer.start()
+
+func set_tower_level(lvl: int) -> void:
+	level = lvl
+	attack_timer.wait_time = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_rate"]
+	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
+	collision_shape.shape.radius = tower_range
+	sprite.frame = lvl - 1

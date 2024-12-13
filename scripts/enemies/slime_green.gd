@@ -1,13 +1,9 @@
 extends Enemy
 
 func _ready() -> void:
-	enemy_type = GameConst.Enemy.GREEN_SLIME
-	health = 1
-	speed = 0.06
+	enemy_type = GameC.EnemyType.GREEN_SLIME
+	initialize_enemy()
 	
-	flash_timer.timeout.connect(_on_flash_timer_timeout)
-	zap_timer.timeout.connect(_on_zap_timer_timeout)
-
 func _process(delta: float) -> void:
 	if is_dead or is_zapped:
 		return

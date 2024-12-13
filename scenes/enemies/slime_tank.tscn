@@ -1,12 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3ys6w1vmr7bf"]
+[gd_scene load_steps=10 format=3 uid="uid://dllhtvl11cc08"]
 
-[ext_resource type="Script" path="res://scripts/enemies/slime_blue.gd" id="1_rd1lu"]
-[ext_resource type="Texture2D" uid="uid://bguit2uupqj5i" path="res://assets/sprites/slime_blue.png" id="2_g8uff"]
+[ext_resource type="Texture2D" uid="uid://bv6a67ynpvhc5" path="res://assets/sprites/slime_tank.png" id="1_60kb1"]
+[ext_resource type="Script" path="res://scripts/enemies/slime_tank.gd" id="1_ymo5t"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a0xde"]
-size = Vector2(16, 13)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tu3es"]
+size = Vector2(22, 18)
 
-[sub_resource type="Animation" id="Animation_e6als"]
+[sub_resource type="Animation" id="Animation_okr54"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -21,7 +21,7 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_qtk1k"]
+[sub_resource type="Animation" id="Animation_ilfko"]
 resource_name = "default"
 length = 0.6
 tracks/0/type = "value"
@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_1bx3j"]
+[sub_resource type="Animation" id="Animation_v2qjt"]
 resource_name = "die"
 length = 0.4
 tracks/0/type = "value"
@@ -67,38 +67,37 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_74id1"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5qwbv"]
 _data = {
-"RESET": SubResource("Animation_e6als"),
-"default": SubResource("Animation_qtk1k"),
-"die": SubResource("Animation_1bx3j")
+"RESET": SubResource("Animation_okr54"),
+"default": SubResource("Animation_ilfko"),
+"die": SubResource("Animation_v2qjt")
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oaoae"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5iax8"]
 bg_color = Color(0.125911, 0.125911, 0.125911, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8q0x3"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhjrx"]
 bg_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
 
-[node name="BlueSlime" type="PathFollow2D"]
+[node name="TankSlime" type="PathFollow2D"]
 rotates = false
 loop = false
-script = ExtResource("1_rd1lu")
+script = ExtResource("1_ymo5t")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_a0xde")
+shape = SubResource("RectangleShape2D_tu3es")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_g8uff")
+texture = ExtResource("1_60kb1")
 hframes = 4
 vframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_74id1")
+"": SubResource("AnimationLibrary_5qwbv")
 }
 autoplay = "default"
 
@@ -108,13 +107,13 @@ wait_time = 0.15
 [node name="ZapTimer" type="Timer" parent="."]
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -8.0
-offset_top = -10.0
-offset_right = 8.0
-offset_bottom = -8.0
-theme_override_styles/background = SubResource("StyleBoxFlat_oaoae")
-theme_override_styles/fill = SubResource("StyleBoxFlat_8q0x3")
-max_value = 3.0
+offset_left = -11.0
+offset_top = -13.0
+offset_right = 11.0
+offset_bottom = -11.0
+theme_override_styles/background = SubResource("StyleBoxFlat_5iax8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hhjrx")
+max_value = 15.0
 step = 1.0
-value = 2.0
+value = 8.0
 show_percentage = false
