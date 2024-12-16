@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmikkeaaw1mp2"]
+
+[ext_resource type="Script" path="res://ui/menu_command_center.gd" id="1_blosj"]
+
+[node name="CommandCenter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blosj")
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+offset_left = -32.0
+offset_top = -16.0
+offset_right = 932.0
+offset_bottom = 924.0
+color = Color(0.356363, 0.19066, 9.62615e-08, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 256.0
+offset_top = 96.0
+offset_right = 640.0
+offset_bottom = 153.0
+theme_override_font_sizes/font_size = 32
+text = "Command Center"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectLevel" type="Button" parent="."]
+offset_left = 336.0
+offset_top = 176.0
+offset_right = 560.0
+offset_bottom = 273.0
+theme_override_font_sizes/font_size = 32
+text = "Select Level"
+
+[node name="Upgrades" type="Button" parent="."]
+offset_left = 336.0
+offset_top = 288.0
+offset_right = 560.0
+offset_bottom = 385.0
+theme_override_font_sizes/font_size = 32
+text = "Upgrades"
+
+[node name="MainMenu" type="Button" parent="."]
+offset_left = 336.0
+offset_top = 400.0
+offset_right = 560.0
+offset_bottom = 497.0
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
