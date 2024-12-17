@@ -13,6 +13,31 @@ enum TowerType {
 	ZAP,
 }
 
+var upgrade_data: Dictionary = {
+	"starting_gold": {
+		1: {
+			"upgrade_cost": 0,
+			"value": 200,
+		},
+		2: {
+			"upgrade_cost": 10,
+			"value": 500,
+		},
+		3: {
+			"upgrade_cost": 20,
+			"value": 800,
+		},
+		4: {
+			"upgrade_cost": 30,
+			"value": 1200,
+		},
+		5: {
+			"upgrade_cost": 40,
+			"value": 1600,
+		},
+	}
+}
+
 # TODO: make this const?
 var level_wave_data: Dictionary = {
 	# Level
@@ -162,21 +187,24 @@ var e_data: Dictionary = {
 		"speed": 0.06,
 		"tower_damage": 1,
 		"label": "Green Slime",
-		"kill_award": 10,
+		"gold_award": 10,
+		"rp_award": 1,
 	},
 	EnemyType.BLUE_SLIME: {
 		"hp": 3,
 		"speed": 0.07,
 		"tower_damage": 2,
 		"label": "Blue Slime",
-		"kill_award": 20,
+		"gold_award": 20,
+		"rp_award": 2,
 	},
 	EnemyType.TANK_SLIME: {
 		"hp": 15,
 		"speed": 0.05,
 		"tower_damage": 3,
 		"label": "Tank Slime",
-		"kill_award": 50,
+		"gold_award": 50,
+		"rp_award": 5,
 	},
 }
 

@@ -23,13 +23,14 @@ var done_spawning: bool = false
 var archer_tower_sprite: Resource = preload("res://entities/towers/tower_archer.png")
 var fireball_tower_sprite: Resource = preload("res://entities/towers/tower_fireball.png")
 var zap_tower_sprite: Resource = preload("res://entities/towers/tower_zap.png")
-@export var game_state: GameStateResource
+
+@export var game_state: Resource
 
 @onready var spawner: Node2D = $Spawner
 @onready var tile_map: TileMap = $TileMap
 
 func _ready() -> void:
-	#debug_calc_money_at_each_wave()
+	#debug_calc_gold_at_each_wave()
 	debug_calc_total_slime_hp_of_each_wave()
 	
 	connect_signals()
@@ -46,9 +47,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	elif event.is_action_pressed("left_mouse"):
 		if selected_tower_blueprint == GameC.TowerType.NONE:
-			game_state.tower_selection = null
+			LevelState.tower_selection = null
 			return
-		if game_state.money < GameC.t_data[selected_tower_blueprint]["cost"]:
+		if LevelState.gold < GameC.t_data[selected_tower_blueprint]["cost"]:
 			return
 		
 		var tower_pos: Vector2 = calc_grid_pos(get_global_mouse_position())
@@ -58,7 +59,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Stop further propogation
 		get_viewport().set_input_as_handled()
 		
-		game_state.money -= GameC.t_data[selected_tower_blueprint]["cost"]
+		LevelState.gold -= GameC.t_data[selected_tower_blueprint]["cost"]
 		
 		var new_tower: Tower
 		match (selected_tower_blueprint):
@@ -71,7 +72,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		add_child(new_tower)
 		
 		selected_tower_blueprint = GameC.TowerType.NONE
-		game_state.tower_selection = new_tower
+		LevelState.tower_selection = new_tower
 
 func _process(_delta: float) -> void:
 	if selected_tower_blueprint != GameC.TowerType.NONE:
@@ -85,10 +86,10 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if game_state.tower_selection:
+	if LevelState.tower_selection:
 		draw_circle(
-			game_state.tower_selection.global_position, 
-			game_state.tower_selection.tower_range, 
+			LevelState.tower_selection.global_position, 
+			LevelState.tower_selection.tower_range, 
 			Color(1, 1, 1, 0.1)
 		)
 	
@@ -126,9 +127,16 @@ func connect_signals() -> void:
 	SignalBus.done_spawning.connect(_on_spawner_done_spawning)
 
 func wave_over() -> void:
-	game_state.wave_active = false
-	game_state.wave += 1
-	game_state.money += 100
+	LevelState.wave_active = false
+	LevelState.wave += 1
+	LevelState.gold += 100
+	
+	if LevelState.wave > GameC.level_wave_data[LevelState.level].size() and not LevelState.level_over:
+		level_over()
+
+func level_over() -> void:
+	LevelState.level_over = true
+	SignalBus.level_over.emit("win")
 
 func place_rect(_mouse_grid_pos: Vector2, valid_square: bool, x: int, y: int) -> void:
 	if valid_square:
@@ -182,38 +190,39 @@ func _on_user_interface_update_building_selection(tower_selection: GameC.TowerTy
 		selected_tower_blueprint = GameC.TowerType.NONE
 
 func _on_user_interface_wave_start() -> void:
-	game_state.wave_active = true
+	LevelState.wave_active = true
 	spawner.start_wave()
 
 # Update tower selection (for upgrades, selling, etc.)
 func _on_tower_clicked(tower_clicked: Tower) -> void:
-	game_state.tower_selection = tower_clicked
+	LevelState.tower_selection = tower_clicked
 
 func _on_enemy_killed(enemy: GameC.EnemyType) -> void:
-	game_state.money += GameC.e_data[enemy]["kill_award"]
+	LevelState.gold += GameC.e_data[enemy]["gold_award"]
+	LevelState.earned_rp += GameC.e_data[enemy]["rp_award"]
 
 func _on_upgrade_tower() -> void:
-	if game_state.tower_selection == null:
+	if LevelState.tower_selection == null:
 		return
 	
-	var t_type: GameC.TowerType = game_state.tower_selection.tower_type
-	var t_lvl: int = game_state.tower_selection.level
-	if game_state.money < GameC.t_data[t_type]["lvl_data"][t_lvl + 1]["upgrade_cost"]:
+	var t_type: GameC.TowerType = LevelState.tower_selection.tower_type
+	var t_lvl: int = LevelState.tower_selection.level
+	if LevelState.gold < GameC.t_data[t_type]["lvl_data"][t_lvl + 1]["upgrade_cost"]:
 		return
 	if t_lvl >= GameC.t_data[t_type]["lvl_data"].size():
 		return
 	
-	game_state.money -= GameC.t_data[t_type]["lvl_data"][t_lvl + 1]["upgrade_cost"]
-	game_state.tower_selection.set_tower_level(t_lvl + 1)
+	LevelState.gold -= GameC.t_data[t_type]["lvl_data"][t_lvl + 1]["upgrade_cost"]
+	LevelState.tower_selection.set_tower_level(t_lvl + 1)
 
 func _on_sell_tower() -> void:
-	if game_state.tower_selection == null:
+	if LevelState.tower_selection == null:
 		return
 	
-	game_state.tower_selection.queue_free()
+	LevelState.tower_selection.queue_free()
 	
-	var t_type: GameC.TowerType = game_state.tower_selection.tower_type
-	var t_lvl: int = game_state.tower_selection.level
+	var t_type: GameC.TowerType = LevelState.tower_selection.tower_type
+	var t_lvl: int = LevelState.tower_selection.level
 	var sell_percent: float = 0.8
 	var refund: int = GameC.t_data[t_type]["cost"] * sell_percent
 	
@@ -222,29 +231,29 @@ func _on_sell_tower() -> void:
 	for upgrade_lvl in range(2, t_lvl + 1):
 		refund += GameC.t_data[t_type]["lvl_data"][upgrade_lvl]["upgrade_cost"] * sell_percent
 	
-	game_state.money += refund
+	LevelState.gold += refund
 	
-	game_state.tower_selection = null
+	LevelState.tower_selection = null
 
 func _on_spawner_done_spawning() -> void:
 	done_spawning = true
 
-# Calculates how much money the player will have at the start of each wave (without spending)
-func debug_calc_money_at_each_wave() -> void:
+# Calculates how much gold the player will have at the start of each wave (without spending)
+func debug_calc_gold_at_each_wave() -> void:
 	# TODO: whenever you modify wave award (if you do?) you must update this function
-	var current_money: int = game_state.money
+	var current_gold: int = LevelState.gold
 	
-	var waves: Dictionary = GameC.level_wave_data[game_state.level]
+	var waves: Dictionary = GameC.level_wave_data[LevelState.level]
 	
 	for i in range(1, waves.size() + 1):
-		print("Wave " + str(i) + ": " + str(current_money))
-		current_money += GameC.wave_award
+		print("Wave " + str(i) + ": " + str(current_gold))
+		current_gold += GameC.wave_award
 		for phase: Dictionary in waves[i]:
-			current_money += phase["count"] * GameC.e_data[phase["enemy_type"]]["kill_award"]
+			current_gold += phase["count"] * GameC.e_data[phase["enemy_type"]]["gold_award"]
 
 # Calculates the sum of slime HPs for every wave
 func debug_calc_total_slime_hp_of_each_wave() -> void:
-	var waves: Dictionary = GameC.level_wave_data[game_state.level]
+	var waves: Dictionary = GameC.level_wave_data[LevelState.level]
 	
 	for i in range(1, waves.size() + 1):
 		var hp_sum: int = 0

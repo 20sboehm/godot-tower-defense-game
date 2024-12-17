@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxrdybr1h6jc6"]
+[gd_scene load_steps=3 format=3 uid="uid://dxrdybr1h6jc6"]
 
 [ext_resource type="Script" path="res://ui/menu_upgrade.gd" id="1_e4fx8"]
+[ext_resource type="Resource" uid="uid://dpyyjy8i3ogtw" path="res://globals_and_resources/game_state_res.tres" id="2_v0nck"]
 
 [node name="UpgradeMenu" type="Control"]
 layout_mode = 3
@@ -10,15 +11,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_e4fx8")
+game_state = ExtResource("2_v0nck")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
+layout_mode = 0
 offset_left = -32.0
 offset_top = -16.0
 offset_right = 932.0
 offset_bottom = 924.0
 color = Color(0.356863, 0.192157, 0, 1)
 
+[node name="ResearchPointsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 157.0
+offset_bottom = 39.0
+text = "Research Points: 0"
+
 [node name="Title" type="Label" parent="."]
+layout_mode = 0
 offset_left = 256.0
 offset_top = 96.0
 offset_right = 640.0
@@ -28,10 +40,22 @@ text = "Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Back" type="Button" parent="."]
+[node name="StartingGoldUpgrade" type="Button" parent="."]
+layout_mode = 0
 offset_left = 336.0
 offset_top = 176.0
 offset_right = 560.0
 offset_bottom = 273.0
+theme_override_font_sizes/font_size = 18
+text = "Upgrade Starting Gold
+10 research points
+"
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 288.0
+offset_right = 560.0
+offset_bottom = 385.0
 theme_override_font_sizes/font_size = 32
 text = "Back"

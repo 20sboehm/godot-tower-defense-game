@@ -5,8 +5,6 @@ var phase: int = 0
 var remaining_enemies: int = 0
 var enemy_type: GameC.EnemyType
 
-@export var game_state: GameStateResource
-
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var enemy_path_1: Path2D = %EnemyPath
 @onready var enemy_path_2: Path2D = %EnemyPath2
@@ -16,7 +14,7 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 
 func _on_spawn_timer_timeout() -> void:
-	var wave_data: Array = GameC.level_wave_data[game_state.level][game_state.wave]
+	var wave_data: Array = GameC.level_wave_data[LevelState.level][LevelState.wave]
 	var phase_data: Dictionary = wave_data[phase]
 	
 	if remaining_enemies == 0:
