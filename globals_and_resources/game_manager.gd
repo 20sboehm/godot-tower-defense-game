@@ -24,8 +24,6 @@ var archer_tower_sprite: Resource = preload("res://entities/towers/tower_archer.
 var fireball_tower_sprite: Resource = preload("res://entities/towers/tower_fireball.png")
 var zap_tower_sprite: Resource = preload("res://entities/towers/tower_zap.png")
 
-@export var game_state: Resource
-
 @onready var spawner: Node2D = $Spawner
 @onready var tile_map: TileMap = $TileMap
 
@@ -89,9 +87,15 @@ func _draw() -> void:
 	if LevelState.tower_selection:
 		draw_circle(
 			LevelState.tower_selection.global_position, 
+			#LevelState.tower_selection.get_node("EnemyTargeter").global_position, 
 			LevelState.tower_selection.tower_range, 
 			Color(1, 1, 1, 0.1)
 		)
+		#draw_circle(
+			#LevelState.tower_selection.get_node("EnemyTargeter").global_position, 
+			#10.0,
+			#Color(1, 1, 1),
+		#)
 	
 	var grey: Color = Color(1, 1, 1, 0.1)
 	var mouse_grid_pos: Vector2 = calc_grid_pos(get_global_mouse_position())
@@ -131,12 +135,14 @@ func wave_over() -> void:
 	LevelState.wave += 1
 	LevelState.gold += 100
 	
-	if LevelState.wave > GameC.level_wave_data[LevelState.level].size() and not LevelState.level_over:
+	if LevelState.wave > GameC.level_wave_data[LevelState.level].size() \
+		and not LevelState.level_won and not LevelState.level_lost:
 		level_over()
 
 func level_over() -> void:
-	LevelState.level_over = true
-	SignalBus.level_over.emit("win")
+	LevelState.level_won = true
+	GameState.rp += LevelState.earned_rp
+	GameState.save_game()
 
 func place_rect(_mouse_grid_pos: Vector2, valid_square: bool, x: int, y: int) -> void:
 	if valid_square:

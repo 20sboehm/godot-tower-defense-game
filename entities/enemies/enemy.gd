@@ -25,11 +25,11 @@ func initialize_enemy() -> void:
 
 func take_damage(damage: int) -> void:
 	health -= damage
-	modulate = Color(2, 2, 2)
-	flash_timer.start()
 	if health <= 0:
 		is_dead = true
 		animation_player.play("die")
+	modulate = Color(2, 2, 2)
+	flash_timer.start()
 
 func set_zapped(time: float) -> void:
 	flash_timer.stop()

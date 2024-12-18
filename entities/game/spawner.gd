@@ -14,6 +14,10 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 
 func _on_spawn_timer_timeout() -> void:
+	if LevelState.level_won or LevelState.level_lost:
+		spawn_timer.stop()
+		return
+	
 	var wave_data: Array = GameC.level_wave_data[LevelState.level][LevelState.wave]
 	var phase_data: Dictionary = wave_data[phase]
 	

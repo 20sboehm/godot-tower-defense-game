@@ -21,7 +21,7 @@ func _process(_delta: float) -> void:
 	var closest_target: Area2D = get_closest_target(enemy_targeter.global_position, targets)
 	var angle_to_target: float = get_angle_to_closest_target(closest_target)
 	
-	var new_fireball: Fireball = Fireball.create(angle_to_target, tower_range)
+	var new_fireball: Fireball = Fireball.create(angle_to_target, tower_range, level)
 	enemy_targeter.add_child(new_fireball)
 	
 	attack_ready = false

@@ -1,10 +1,5 @@
 extends Control
 
-# TODO: save path should be global
-var save_path: String = "user://game_state.save"
-
-@export var game_state: Resource
-
 @onready var fps_label: Label = $FPSLabel
 @onready var archer_tower_button: Button = %ArcherTowerButton
 @onready var fireball_tower_button: Button = %FireballTowerButton
@@ -31,13 +26,13 @@ var save_path: String = "user://game_state.save"
 @onready var wave_info_header: Label = $WaveInfoPanel/WaveInfoHeader
 @onready var wave_enemies: Label = $WaveInfoPanel/WaveEnemies
 
-@onready var win_panel: Panel = $LevelCompletePanel
-@onready var win_research_points_earned: Label = $LevelCompletePanel/ResearchPointsEarned
-@onready var win_back_to_command_center: Button = $LevelCompletePanel/BackToCommandCenter
+@onready var win_panel: Panel = $WinPanel
+@onready var win_research_points_earned: Label = $WinPanel/ResearchPointsEarned
+@onready var win_back_to_command_center: Button = $WinPanel/BackToCommandCenter
 
-@onready var loss_panel: Panel = $DefeatPanel
-@onready var loss_research_points_earned: Label = $DefeatPanel/ResearchPointsEarned
-@onready var loss_back_to_command_center: Button = $DefeatPanel/BackToCommandCenter
+@onready var loss_panel: Panel = $LossPanel
+@onready var loss_research_points_earned: Label = $LossPanel/ResearchPointsEarned
+@onready var loss_back_to_command_center: Button = $LossPanel/BackToCommandCenter
 
 func _ready() -> void:
 	connect_signals()
@@ -52,7 +47,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	fps_label.text = str(Engine.get_frames_per_second()) + " FPS"
 	
-	wave_label.text = "Wave " + str(LevelState.wave)
+	wave_label.text = "Wave " + str(LevelState.wave) + "/" + str(GameC.level_wave_data[1].size())
 	gold_label.text = "Gold (g): " + str(LevelState.gold)
 	earned_rp.text = "Earned RP: " + str(LevelState.earned_rp)
 	game_speed_label.text = "Game Speed: " + str(Engine.time_scale) + "x"
@@ -60,9 +55,9 @@ func _process(_delta: float) -> void:
 	if LevelState.wave_active:
 		start_wave_button.disabled = true
 		start_wave_button.text = "Wave " + str(LevelState.wave) + " In Progress"
-	elif LevelState.level_over == true:
+	elif LevelState.level_won or LevelState.level_lost:
 		start_wave_button.disabled = true
-		start_wave_button.text = "Level complete!"
+		start_wave_button.text = "Level over!"
 	else:
 		start_wave_button.disabled = false
 		start_wave_button.text = "Start Wave " + str(LevelState.wave)
@@ -74,6 +69,12 @@ func _process(_delta: float) -> void:
 	set_upgrade_panel_state()
 	
 	set_wave_info_state()
+	
+	if LevelState.level_won:
+		level_won()
+	
+	if LevelState.level_lost:
+		level_lost()
 
 func connect_signals() -> void:
 	start_wave_button.button_down.connect(_on_start_wave_button_down)
@@ -87,7 +88,7 @@ func connect_signals() -> void:
 	zap_tower_button.button_down.connect(_on_zap_tower_button_down)
 	win_back_to_command_center.button_down.connect(_on_back_to_command_center_button_down)
 	loss_back_to_command_center.button_down.connect(_on_back_to_command_center_button_down)
-	SignalBus.level_over.connect(_on_level_over)
+	#SignalBus.level_over.connect(_on_level_over)
 
 func set_button_state(button: Button, disabledCondition: bool, disabledText: String = "",
 						enabledText: String = "") -> void:
@@ -102,9 +103,9 @@ func set_button_state(button: Button, disabledCondition: bool, disabledText: Str
 
 # TODO: you could have a boolean to tell this whether or not something has changed
 func set_wave_info_state() -> void:
-	if LevelState.level_over == true:
+	if LevelState.level_won or LevelState.level_lost:
 		wave_enemies.text = ""
-		wave_info_header.text = "Level complete!"
+		wave_info_header.text = "Level over!"
 		return
 	
 	wave_info_header.text = "Wave " + str(LevelState.wave)
@@ -175,6 +176,31 @@ func set_upgrade_panel_state() -> void:
 		refund += GameC.t_data[t_type]["lvl_data"][upgrade_lvl]["upgrade_cost"] * sell_percent
 	sell_button.text = "Sell\n" + str(refund) + "g"
 
+func level_won() -> void:
+	if win_panel.visible == true:
+		return
+	var rp_text: String = "You earned " + str(LevelState.earned_rp) + " research points"
+	win_research_points_earned.text = rp_text
+	win_panel.visible = true
+
+func level_lost() -> void:
+	if loss_panel.visible == true:
+		return
+	var rp_text: String = "You earned " + str(LevelState.earned_rp) + " research points"
+	loss_research_points_earned.text = rp_text
+	loss_panel.visible = true
+
+#func _on_level_over(win_or_loss: String) -> void:
+	#GameState.rp += LevelState.earned_rp
+	#var rp_text: String = "You earned " + str(LevelState.earned_rp) + " research points"
+	#if win_or_loss == "win":
+		#win_research_points_earned.text = rp_text
+		#win_panel.visible = true
+	#if win_or_loss == "loss":
+		#loss_research_points_earned.text = rp_text
+		#loss_panel.visible = true
+	#GameState.save_game()
+
 func _on_start_wave_button_down() -> void:
 	SignalBus.wave_start.emit()
 
@@ -204,21 +230,3 @@ func _on_game_speed_four_button_down() -> void:
 
 func _on_back_to_command_center_button_down() -> void:
 	get_tree().change_scene_to_file("res://ui/menu_command_center.tscn")
-
-func _on_level_over(win_or_loss: String) -> void:
-	game_state.rp += LevelState.earned_rp
-	var rp_text: String = "You earned " + str(LevelState.earned_rp) + " research points"
-	if win_or_loss == "win":
-		win_research_points_earned.text = rp_text
-		win_panel.visible = true
-	if win_or_loss == "loss":
-		loss_research_points_earned.text = rp_text
-		loss_panel.visible = true
-	save() # TODO: refactor saving
-
-# TODO: refactor saving
-func save() -> void:
-	var file: FileAccess = FileAccess.open(save_path, FileAccess.WRITE)
-	file.store_var(game_state.rp)
-	file.store_var(game_state.starting_gold)
-	file.store_var(game_state.starting_gold_level)

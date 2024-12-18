@@ -24,6 +24,7 @@ shape = SubResource("RectangleShape2D_3q56i")
 position = Vector2(0, -10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTargeter"]
+position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_dsb8l")
 
 [node name="AttackTimer" type="Timer" parent="EnemyTargeter"]

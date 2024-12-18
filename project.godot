@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SignalBus="*res://globals_and_resources/signal_bus.gd"
 GameC="*res://globals_and_resources/game_const.gd"
 LevelState="*res://globals_and_resources/level_state.gd"
+GameState="*res://globals_and_resources/game_state.gd"
 
 [debug]
 

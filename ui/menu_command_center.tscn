@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dmikkeaaw1mp2"]
 
 [ext_resource type="Script" path="res://ui/menu_command_center.gd" id="1_blosj"]
-[ext_resource type="Resource" uid="uid://dpyyjy8i3ogtw" path="res://globals_and_resources/game_state_res.tres" id="2_t842d"]
+[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://globals_and_resources/main_theme.tres" id="1_ik4og"]
 
 [node name="CommandCenter" type="Control"]
 layout_mode = 3
@@ -10,8 +10,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_ik4og")
 script = ExtResource("1_blosj")
-game_state = ExtResource("2_t842d")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
 layout_mode = 0
@@ -19,7 +19,7 @@ offset_left = -32.0
 offset_top = -16.0
 offset_right = 932.0
 offset_bottom = 924.0
-color = Color(0.356363, 0.19066, 9.62615e-08, 1)
+color = Color(0.247059, 0.219608, 0.172549, 1)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 0
@@ -60,8 +60,9 @@ theme_override_font_sizes/font_size = 32
 text = "Main Menu"
 
 [node name="ResearchPointsLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 157.0
 offset_bottom = 39.0
-text = "Research Points: 0"
+text = "RP: 0"

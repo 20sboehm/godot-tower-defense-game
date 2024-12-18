@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxrdybr1h6jc6"]
 
+[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://globals_and_resources/main_theme.tres" id="1_04d3m"]
 [ext_resource type="Script" path="res://ui/menu_upgrade.gd" id="1_e4fx8"]
-[ext_resource type="Resource" uid="uid://dpyyjy8i3ogtw" path="res://globals_and_resources/game_state_res.tres" id="2_v0nck"]
 
 [node name="UpgradeMenu" type="Control"]
 layout_mode = 3
@@ -10,16 +10,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_04d3m")
 script = ExtResource("1_e4fx8")
-game_state = ExtResource("2_v0nck")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = -32.0
+offset_left = -16.0
 offset_top = -16.0
-offset_right = 932.0
-offset_bottom = 924.0
-color = Color(0.356863, 0.192157, 0, 1)
+offset_right = 912.0
+offset_bottom = 912.0
+color = Color(0.247059, 0.219608, 0.172549, 1)
 
 [node name="ResearchPointsLabel" type="Label" parent="."]
 layout_mode = 0
@@ -27,7 +27,7 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 157.0
 offset_bottom = 39.0
-text = "Research Points: 0"
+text = "RP: 0"
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 0
@@ -40,22 +40,59 @@ text = "Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartingGoldUpgrade" type="Button" parent="."]
+[node name="StartGold" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 336.0
-offset_top = 176.0
+offset_top = 172.0
 offset_right = 560.0
-offset_bottom = 273.0
-theme_override_font_sizes/font_size = 18
-text = "Upgrade Starting Gold
-10 research points
+offset_bottom = 316.0
+
+[node name="StartGoldTitle" type="Label" parent="StartGold"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 224.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 16
+text = "Starting Gold (1/20)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartGoldCurrent" type="Label" parent="StartGold"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = 176.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "Current: 0 gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartGoldNext" type="Label" parent="StartGold"]
+offset_left = 48.0
+offset_top = 52.0
+offset_right = 176.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 12
+text = "Next: 0 gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartGoldUpgrade" type="Button" parent="StartGold"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 80.0
+offset_right = 160.0
+offset_bottom = 136.0
+text = "Upgrade
+10 RP
 "
 
 [node name="Back" type="Button" parent="."]
 layout_mode = 0
 offset_left = 336.0
-offset_top = 288.0
+offset_top = 688.0
 offset_right = 560.0
-offset_bottom = 385.0
+offset_bottom = 741.0
 theme_override_font_sizes/font_size = 32
 text = "Back"

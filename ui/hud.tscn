@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cfoyk6y3t328l"]
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_lwj8h"]
-[ext_resource type="Resource" uid="uid://dpyyjy8i3ogtw" path="res://globals_and_resources/game_state_res.tres" id="2_bj5pn"]
+[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://globals_and_resources/main_theme.tres" id="2_803gm"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -11,8 +11,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+theme = ExtResource("2_803gm")
 script = ExtResource("1_lwj8h")
-game_state = ExtResource("2_bj5pn")
 
 [node name="FPSLabel" type="Label" parent="."]
 layout_mode = 0
@@ -58,6 +58,7 @@ anchors_preset = 0
 
 [node name="ArcherTowerButton" type="Button" parent="BuildTowerButtons"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 8.0
 offset_top = 72.0
 offset_right = 136.0
@@ -67,6 +68,7 @@ text = "Archer Tower
 
 [node name="FireballTowerButton" type="Button" parent="BuildTowerButtons"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 8.0
 offset_top = 136.0
 offset_right = 136.0
@@ -76,6 +78,7 @@ text = "Fireball Tower
 
 [node name="ZapTowerButton" type="Button" parent="BuildTowerButtons"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 8.0
 offset_top = 200.0
 offset_right = 136.0
@@ -85,19 +88,19 @@ text = "Zap Tower
 
 [node name="StartWaveButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 648.0
+offset_left = 632.0
 offset_top = 8.0
-offset_right = 808.0
-offset_bottom = 39.0
+offset_right = 792.0
+offset_bottom = 41.0
 text = "Start Wave 99"
 
 [node name="WaveLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 816.0
+offset_left = 800.0
 offset_top = 8.0
-offset_right = 888.0
+offset_right = 890.0
 offset_bottom = 40.0
-text = "Wave 99"
+text = "Wave 99/99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -110,6 +113,7 @@ offset_bottom = 31.0
 text = "Gold (g): 0"
 
 [node name="EarnedRP" type="Label" parent="."]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 32.0
 offset_right = 136.0
@@ -118,15 +122,15 @@ text = "Earned RP: 0"
 
 [node name="TowerInfoPanel" type="Panel" parent="."]
 layout_mode = 2
-offset_left = 648.0
+offset_left = 632.0
 offset_top = 200.0
 offset_right = 888.0
 offset_bottom = 552.0
 
 [node name="TowerType" type="Label" parent="TowerInfoPanel"]
 layout_mode = 2
-offset_left = 16.0
-offset_right = 224.0
+offset_left = 32.0
+offset_right = 240.0
 offset_bottom = 32.0
 text = "Tower"
 horizontal_alignment = 1
@@ -134,9 +138,9 @@ vertical_alignment = 1
 
 [node name="TowerLevel" type="Label" parent="TowerInfoPanel"]
 layout_mode = 0
-offset_left = 16.0
+offset_left = 32.0
 offset_top = 24.0
-offset_right = 224.0
+offset_right = 240.0
 offset_bottom = 48.0
 theme_override_font_sizes/font_size = 12
 text = "Level: 0"
@@ -145,27 +149,27 @@ vertical_alignment = 1
 
 [node name="UpgradeButton" type="Button" parent="TowerInfoPanel"]
 layout_mode = 0
-offset_left = 56.0
+offset_left = 72.0
 offset_top = 56.0
-offset_right = 184.0
-offset_bottom = 110.0
+offset_right = 200.0
+offset_bottom = 112.0
 text = "Upgrade
 0g"
 
 [node name="SellButton" type="Button" parent="TowerInfoPanel"]
 layout_mode = 0
-offset_left = 56.0
+offset_left = 72.0
 offset_top = 120.0
-offset_right = 184.0
-offset_bottom = 174.0
+offset_right = 200.0
+offset_bottom = 176.0
 text = "Sell
 0g"
 
 [node name="NextUpgradeHeader" type="Label" parent="TowerInfoPanel"]
 layout_mode = 0
-offset_left = 64.0
+offset_left = 80.0
 offset_top = 184.0
-offset_right = 176.0
+offset_right = 192.0
 offset_bottom = 207.0
 text = "Next Upgrade"
 horizontal_alignment = 1
@@ -173,16 +177,16 @@ vertical_alignment = 1
 
 [node name="Underline" type="ColorRect" parent="TowerInfoPanel"]
 layout_mode = 0
-offset_left = 64.0
+offset_left = 80.0
 offset_top = 208.0
-offset_right = 176.0
+offset_right = 192.0
 offset_bottom = 209.0
 
 [node name="UpgradeDescriptions" type="Control" parent="TowerInfoPanel"]
 anchors_preset = 0
-offset_left = 32.0
+offset_left = 48.0
 offset_top = 208.0
-offset_right = 208.0
+offset_right = 224.0
 offset_bottom = 267.0
 
 [node name="UpgradeDescription1" type="Label" parent="TowerInfoPanel/UpgradeDescriptions"]
@@ -227,7 +231,7 @@ horizontal_alignment = 1
 
 [node name="WaveInfoPanel" type="Panel" parent="."]
 layout_mode = 0
-offset_left = 648.0
+offset_left = 632.0
 offset_top = 48.0
 offset_right = 888.0
 offset_bottom = 192.0
@@ -253,14 +257,14 @@ text = "10 Green Slimes
 10 Ice slimes
 1 Slime Chief"
 
-[node name="LevelCompletePanel" type="Panel" parent="."]
+[node name="WinPanel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 320.0
 offset_top = 64.0
 offset_right = 576.0
 offset_bottom = 256.0
 
-[node name="LevelComplete" type="Label" parent="LevelCompletePanel"]
+[node name="LevelComplete" type="Label" parent="WinPanel"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 8.0
@@ -272,7 +276,7 @@ text = "Victory!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResearchPointsEarned" type="Label" parent="LevelCompletePanel"]
+[node name="ResearchPointsEarned" type="Label" parent="WinPanel"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 48.0
@@ -283,7 +287,7 @@ text = "You earned 0 research points (RP)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NextLevelUnlocked" type="Label" parent="LevelCompletePanel"]
+[node name="NextLevelUnlocked" type="Label" parent="WinPanel"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 80.0
@@ -294,7 +298,7 @@ text = "Next level unlocked"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BackToCommandCenter" type="Button" parent="LevelCompletePanel"]
+[node name="BackToCommandCenter" type="Button" parent="WinPanel"]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 144.0
@@ -302,7 +306,7 @@ offset_right = 232.0
 offset_bottom = 175.0
 text = "Back to command center"
 
-[node name="DefeatPanel" type="Panel" parent="."]
+[node name="LossPanel" type="Panel" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 320.0
@@ -310,7 +314,7 @@ offset_top = 64.0
 offset_right = 576.0
 offset_bottom = 256.0
 
-[node name="LevelComplete" type="Label" parent="DefeatPanel"]
+[node name="LevelComplete" type="Label" parent="LossPanel"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 8.0
@@ -322,7 +326,7 @@ text = "Defeat!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResearchPointsEarned" type="Label" parent="DefeatPanel"]
+[node name="ResearchPointsEarned" type="Label" parent="LossPanel"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 48.0
@@ -333,7 +337,7 @@ text = "You earned 0 research points (RP)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SpendPoints" type="Label" parent="DefeatPanel"]
+[node name="SpendPoints" type="Label" parent="LossPanel"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 80.0
@@ -345,7 +349,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="BackToCommandCenter" type="Button" parent="DefeatPanel"]
+[node name="BackToCommandCenter" type="Button" parent="LossPanel"]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 144.0

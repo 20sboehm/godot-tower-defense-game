@@ -4,7 +4,6 @@ extends Node
 @onready var settings: Button = $Settings
 @onready var quit: Button = $Quit
 
-
 func _ready() -> void:
 	play.button_down.connect(_on_play_button_down)
 	settings.button_down.connect(_on_settings_button_down)

@@ -2,7 +2,6 @@ extends Control
 
 @onready var back: Button = $Back
 
-
 func _ready() -> void:
 	back.button_down.connect(_on_back_button_down)
 

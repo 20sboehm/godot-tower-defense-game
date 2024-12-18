@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c41wjbva71m7a"]
+[gd_scene load_steps=3 format=3 uid="uid://c41wjbva71m7a"]
 
 [ext_resource type="Script" path="res://ui/menu_main.gd" id="1_cff2x"]
+[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://globals_and_resources/main_theme.tres" id="1_oawkr"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_oawkr")
 script = ExtResource("1_cff2x")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
@@ -17,7 +19,7 @@ offset_left = -32.0
 offset_top = -16.0
 offset_right = 932.0
 offset_bottom = 924.0
-color = Color(0.208597, 0.473927, 2.88785e-07, 1)
+color = Color(0.247059, 0.219608, 0.172549, 1)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 0

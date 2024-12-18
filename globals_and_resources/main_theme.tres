@@ -1,0 +1,45 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://bcrd7oeovct3u"]
+
+[ext_resource type="Texture2D" uid="uid://cvf71irls1jqe" path="res://ui/healthbarUnder.png" id="1_fjecv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_83vch"]
+texture = ExtResource("1_fjecv")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+modulate_color = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fxqay"]
+texture = ExtResource("1_fjecv")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+modulate_color = Color(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xjc7a"]
+texture = ExtResource("1_fjecv")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+modulate_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5bdye"]
+texture = ExtResource("1_fjecv")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+modulate_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7gklc"]
+bg_color = Color(0.192157, 0.172549, 0.133333, 1)
+
+[resource]
+Button/styles/disabled = SubResource("StyleBoxTexture_83vch")
+Button/styles/hover = SubResource("StyleBoxTexture_fxqay")
+Button/styles/normal = SubResource("StyleBoxTexture_xjc7a")
+Button/styles/pressed = SubResource("StyleBoxTexture_5bdye")
+Panel/styles/panel = SubResource("StyleBoxFlat_7gklc")

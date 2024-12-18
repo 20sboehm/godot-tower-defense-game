@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="GameStateResource" load_steps=2 format=3 uid="uid://dpyyjy8i3ogtw"]
-
-[ext_resource type="Script" path="res://globals_and_resources/game_state_res.gd" id="1_202qx"]
-
-[resource]
-script = ExtResource("1_202qx")

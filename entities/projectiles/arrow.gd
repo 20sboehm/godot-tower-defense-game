@@ -22,7 +22,7 @@ func _ready() -> void:
 	
 	lifetime_timer.timeout.connect(_on_end_lifetime)
 	var lifetime: float = proj_range / speed
-	lifetime_timer.wait_time = lifetime + (lifetime * 0.1) # A little extra range for pierce
+	lifetime_timer.wait_time = lifetime + (lifetime * 0.2) # A little extra range for pierce
 	lifetime_timer.start()
 
 func _process(delta: float) -> void:
@@ -30,9 +30,9 @@ func _process(delta: float) -> void:
 	position += velocity * speed * delta
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy") and area.get_parent().is_dead == false and pierce > 0:
-		pierce -= 1
+	if area.is_in_group("enemy") and pierce > 0 and not area.get_parent().is_dead: # they both get in here
 		area.get_parent().take_damage(1)
+		pierce -= 1
 		if pierce == 0:
 			queue_free()
 

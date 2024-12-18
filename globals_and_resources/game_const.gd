@@ -14,26 +14,46 @@ enum TowerType {
 }
 
 var upgrade_data: Dictionary = {
-	"starting_gold": {
+	"start_gold": {
 		1: {
 			"upgrade_cost": 0,
 			"value": 200,
 		},
 		2: {
 			"upgrade_cost": 10,
-			"value": 500,
+			"value": 400,
 		},
 		3: {
 			"upgrade_cost": 20,
-			"value": 800,
+			"value": 600,
 		},
 		4: {
-			"upgrade_cost": 30,
-			"value": 1200,
+			"upgrade_cost": 40,
+			"value": 900,
 		},
 		5: {
-			"upgrade_cost": 40,
+			"upgrade_cost": 60,
+			"value": 1200,
+		},
+		6: {
+			"upgrade_cost": 90,
 			"value": 1600,
+		},
+		7: {
+			"upgrade_cost": 120,
+			"value": 2000,
+		},
+		8: {
+			"upgrade_cost": 160,
+			"value": 2500,
+		},
+		9: {
+			"upgrade_cost": 200,
+			"value": 3000,
+		},
+		10: {
+			"upgrade_cost": 250,
+			"value": 3600,
 		},
 	}
 }
@@ -51,14 +71,6 @@ var level_wave_data: Dictionary = {
 				"wait_time": 0.6
 			},
 		],
-		#1: [
-			## Phase
-			#{
-				#"enemy_type": EnemyType.TANK_SLIME,
-				#"count": 5,
-				#"wait_time": 5
-			#},
-		#],
 		2: [
 			{
 				"enemy_type": EnemyType.GREEN_SLIME,
@@ -104,14 +116,14 @@ var level_wave_data: Dictionary = {
 		],
 		6: [
 			{
-				"enemy_type": EnemyType.BLUE_SLIME,
-				"count": 20,
-				"wait_time": 0.5
-			},
-			{
 				"enemy_type": EnemyType.GREEN_SLIME,
 				"count": 30,
-				"wait_time": 0.3
+				"wait_time": 0.15
+			},
+			{
+				"enemy_type": EnemyType.BLUE_SLIME,
+				"count": 30,
+				"wait_time": 0.5
 			},
 		],
 		7: [
@@ -121,8 +133,8 @@ var level_wave_data: Dictionary = {
 				"wait_time": 2.0
 			},
 			{
-				"enemy_type": EnemyType.GREEN_SLIME,
-				"count": 40,
+				"enemy_type": EnemyType.BLUE_SLIME,
+				"count": 30,
 				"wait_time": 0.15
 			},
 			{
@@ -131,8 +143,8 @@ var level_wave_data: Dictionary = {
 				"wait_time": 2.0
 			},
 			{
-				"enemy_type": EnemyType.GREEN_SLIME,
-				"count": 40,
+				"enemy_type": EnemyType.BLUE_SLIME,
+				"count": 30,
 				"wait_time": 0.15
 			},
 			{
@@ -144,7 +156,7 @@ var level_wave_data: Dictionary = {
 		8: [
 			{
 				"enemy_type": EnemyType.BLUE_SLIME,
-				"count": 25,
+				"count": 50,
 				"wait_time": 0.4
 			},
 			{
@@ -154,27 +166,27 @@ var level_wave_data: Dictionary = {
 			},
 			{
 				"enemy_type": EnemyType.BLUE_SLIME,
-				"count": 25,
+				"count": 50,
 				"wait_time": 0.4
 			},
 		],
 		9: [
 			{
 				"enemy_type": EnemyType.TANK_SLIME,
-				"count": 10,
+				"count": 25,
 				"wait_time": 1.2
 			},
 		],
 		10: [
 			{
 				"enemy_type": EnemyType.TANK_SLIME,
-				"count": 10,
+				"count": 20,
 				"wait_time": 0.8
 			},
 			{
 				"enemy_type": EnemyType.BLUE_SLIME,
-				"count": 25,
-				"wait_time": 0.3
+				"count": 80,
+				"wait_time": 0.2
 			},
 		],
 	}
@@ -187,7 +199,7 @@ var e_data: Dictionary = {
 		"speed": 0.06,
 		"tower_damage": 1,
 		"label": "Green Slime",
-		"gold_award": 10,
+		"gold_award": 5,
 		"rp_award": 1,
 	},
 	EnemyType.BLUE_SLIME: {
@@ -195,7 +207,7 @@ var e_data: Dictionary = {
 		"speed": 0.07,
 		"tower_damage": 2,
 		"label": "Blue Slime",
-		"gold_award": 20,
+		"gold_award": 10,
 		"rp_award": 2,
 	},
 	EnemyType.TANK_SLIME: {
@@ -203,15 +215,15 @@ var e_data: Dictionary = {
 		"speed": 0.05,
 		"tower_damage": 3,
 		"label": "Tank Slime",
-		"gold_award": 50,
-		"rp_award": 5,
+		"gold_award": 15,
+		"rp_award": 3,
 	},
 }
 
 ## Tower Data
 var t_data: Dictionary = {
 	TowerType.ARCHER: {
-		"cost": 150,
+		"cost": 200,
 		"label": "Archer Tower",
 		"lvl_data": {
 			1: {
@@ -225,7 +237,7 @@ var t_data: Dictionary = {
 				},
 			},
 			2: {
-				"upgrade_cost": 80,
+				"upgrade_cost": 100,
 				"upgrade_desc": "Attack range +33%",
 				"stats": {
 					"damage": 1,
@@ -235,7 +247,7 @@ var t_data: Dictionary = {
 				},
 			},
 			3: {
-				"upgrade_cost": 200,
+				"upgrade_cost": 250,
 				"upgrade_desc": "Arrow pierce +1",
 				"stats": {
 					"damage": 1,
@@ -245,8 +257,8 @@ var t_data: Dictionary = {
 				},
 			},
 			4: {
-				"upgrade_cost": 300,
-				"upgrade_desc": "Attack delay -0.7s",
+				"upgrade_cost": 400,
+				"upgrade_desc": "Attack delay 1.4s -> 0.7s (-50%)",
 				"stats": {
 					"damage": 1,
 					"attack_range": 120,
@@ -280,11 +292,11 @@ var t_data: Dictionary = {
 			},
 			3: {
 				"upgrade_cost": 700,
-				"upgrade_desc": "Attack delay -0.9s",
+				"upgrade_desc": "Attack delay 2.7s -> 1.6s (-40%)",
 				"stats": {
 					"damage": 2,
 					"attack_range": 60,
-					"attack_rate": 1.8,
+					"attack_rate": 1.6,
 				},
 			},
 		},
