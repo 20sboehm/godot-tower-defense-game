@@ -1,9 +1,9 @@
 extends Control
 
-@onready var select_level: Button = $SelectLevel
-@onready var upgrades: Button = $Upgrades
-@onready var main_menu: Button = $MainMenu
-@onready var research_points: Label = $ResearchPointsLabel
+@onready var research_points: Label = %ResearchPointsLabel
+@onready var select_level: Button = %SelectLevel
+@onready var upgrades: Button = %Upgrades
+@onready var main_menu: Button = %MainMenu
 
 func _ready() -> void:
 	select_level.button_down.connect(_on_select_level_button_down)

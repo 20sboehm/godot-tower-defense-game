@@ -5,8 +5,10 @@ var selected_tower_blueprint: GameC.TowerType = GameC.TowerType.NONE:
 	set(new_selection):
 		selected_tower_blueprint = new_selection
 		if new_selection == GameC.TowerType.NONE:
+			LevelState.is_building = false
 			remove_child(icon)
 			return
+		LevelState.is_building = true
 		match (new_selection):
 			GameC.TowerType.ARCHER:
 				icon.set_texture(archer_tower_sprite)
@@ -29,7 +31,7 @@ var zap_tower_sprite: Resource = preload("res://entities/towers/tower_zap.png")
 
 func _ready() -> void:
 	#debug_calc_gold_at_each_wave()
-	debug_calc_total_slime_hp_of_each_wave()
+	#debug_calc_total_slime_hp_of_each_wave()
 	
 	connect_signals()
 	
@@ -41,9 +43,16 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("escape"):
+		print("escape in game manager")
 		selected_tower_blueprint = GameC.TowerType.NONE
+		LevelState.tower_selection = null
+		get_viewport().set_input_as_handled()
+		return
 	
-	elif event.is_action_pressed("left_mouse"):
+	if LevelState.paused:
+		return
+	
+	if event.is_action_pressed("left_mouse"):
 		if selected_tower_blueprint == GameC.TowerType.NONE:
 			LevelState.tower_selection = null
 			return
@@ -86,16 +95,10 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	if LevelState.tower_selection:
 		draw_circle(
-			LevelState.tower_selection.global_position, 
-			#LevelState.tower_selection.get_node("EnemyTargeter").global_position, 
+			LevelState.tower_selection.global_position,
 			LevelState.tower_selection.tower_range, 
 			Color(1, 1, 1, 0.1)
 		)
-		#draw_circle(
-			#LevelState.tower_selection.get_node("EnemyTargeter").global_position, 
-			#10.0,
-			#Color(1, 1, 1),
-		#)
 	
 	var grey: Color = Color(1, 1, 1, 0.1)
 	var mouse_grid_pos: Vector2 = calc_grid_pos(get_global_mouse_position())
@@ -158,12 +161,22 @@ func check_buildable(_pos: Vector2) -> bool:
 		_pos + Vector2(8, -8)
 	]
 	
-	var buildable: bool = true
+	var buildable: bool = true # Check if full tile area is buildable
+	var no_collisions: bool = true # Check that it isn't colliding with another tower
+	
 	for check in checks:
 		if not tile_map.is_buildable(check):
 			buildable = false
+		
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsPointQueryParameters2D.new()
+		query.collision_mask = 2
+		query.position = check
+		var result = space_state.intersect_point(query)
+		if result != []:
+			no_collisions = false
 	
-	return buildable
+	return buildable and no_collisions
 
 func check_buildable_quadrants(_pos: Vector2) -> Array[bool]:
 	var checks: Array[Vector2] = [
@@ -176,7 +189,13 @@ func check_buildable_quadrants(_pos: Vector2) -> Array[bool]:
 	var quadrants: Array[bool] = []
 	
 	for i in range(checks.size()):
-		if tile_map.is_buildable(checks[i]):
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsPointQueryParameters2D.new()
+		query.collision_mask = 2
+		query.position = checks[i]
+		var result = space_state.intersect_point(query)
+		
+		if result == [] and tile_map.is_buildable(checks[i]):
 			quadrants.append(true)
 		else:
 			quadrants.append(false)
@@ -190,6 +209,9 @@ func calc_grid_pos(pos: Vector2) -> Vector2:
 
 # Update tower building selection (for placing a tower).
 func _on_user_interface_update_building_selection(tower_selection: GameC.TowerType) -> void:
+	if LevelState.paused:
+		return
+	
 	if selected_tower_blueprint == GameC.TowerType.NONE:
 		selected_tower_blueprint = tower_selection
 	else:
@@ -199,8 +221,11 @@ func _on_user_interface_wave_start() -> void:
 	LevelState.wave_active = true
 	spawner.start_wave()
 
-# Update tower selection (for upgrades, selling, etc.)
+# Tower selection (for upgrades, selling, etc.)
 func _on_tower_clicked(tower_clicked: Tower) -> void:
+	if LevelState.paused:
+		return
+	
 	LevelState.tower_selection = tower_clicked
 
 func _on_enemy_killed(enemy: GameC.EnemyType) -> void:
@@ -208,7 +233,7 @@ func _on_enemy_killed(enemy: GameC.EnemyType) -> void:
 	LevelState.earned_rp += GameC.e_data[enemy]["rp_award"]
 
 func _on_upgrade_tower() -> void:
-	if LevelState.tower_selection == null:
+	if LevelState.tower_selection == null or LevelState.paused:
 		return
 	
 	var t_type: GameC.TowerType = LevelState.tower_selection.tower_type
@@ -222,7 +247,7 @@ func _on_upgrade_tower() -> void:
 	LevelState.tower_selection.set_tower_level(t_lvl + 1)
 
 func _on_sell_tower() -> void:
-	if LevelState.tower_selection == null:
+	if LevelState.tower_selection == null or LevelState.paused:
 		return
 	
 	LevelState.tower_selection.queue_free()
@@ -246,14 +271,14 @@ func _on_spawner_done_spawning() -> void:
 
 # Calculates how much gold the player will have at the start of each wave (without spending)
 func debug_calc_gold_at_each_wave() -> void:
-	# TODO: whenever you modify wave award (if you do?) you must update this function
+	# TODO: UPDATE THIS FUNCTION TO ACCOUNT FOR WAVE AWARD!!!
 	var current_gold: int = LevelState.gold
 	
 	var waves: Dictionary = GameC.level_wave_data[LevelState.level]
 	
 	for i in range(1, waves.size() + 1):
 		print("Wave " + str(i) + ": " + str(current_gold))
-		current_gold += GameC.wave_award
+		current_gold += GameC.upgrade_data[GameC.Upgrade.WAVE_CLEAR_AWARD][GameState.wave_clear_award_lvl]["value"]
 		for phase: Dictionary in waves[i]:
 			current_gold += phase["count"] * GameC.e_data[phase["enemy_type"]]["gold_award"]
 

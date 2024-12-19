@@ -11,6 +11,7 @@ resource_local_to_scene = true
 radius = 70.0
 
 [node name="ZapTower" type="StaticBody2D"]
+collision_layer = 2
 script = ExtResource("1_0o4b5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

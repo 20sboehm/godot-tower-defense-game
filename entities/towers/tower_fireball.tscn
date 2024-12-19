@@ -11,6 +11,7 @@ resource_local_to_scene = true
 radius = 60.0
 
 [node name="FireballTower" type="StaticBody2D"]
+collision_layer = 2
 script = ExtResource("1_a76b0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

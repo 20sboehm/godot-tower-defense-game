@@ -1,38 +1,72 @@
 extends Control
 
-@onready var fps_label: Label = $FPSLabel
+#var paused: bool = false
+var game_speed: int = 1 # Track game speed for pausing/unpausing
+
+## -------------------------
+## ------- LEFT SIDE -------
+## -------------------------
+
+## Gold and RP
+@onready var gold_label: Label = %GoldLabel
+@onready var earned_rp: Label = %EarnedRP
+
+## Tower build buttons
 @onready var archer_tower_button: Button = %ArcherTowerButton
 @onready var fireball_tower_button: Button = %FireballTowerButton
 @onready var zap_tower_button: Button = %ZapTowerButton
-@onready var start_wave_button: Button = $StartWaveButton
-@onready var game_speed_one_button: Button = $GameSpeed/GameSpeedOneButton
-@onready var game_speed_two_button: Button = $GameSpeed/GameSpeedTwoButton
-@onready var game_speed_four_button: Button = $GameSpeed/GameSpeedFourButton
-@onready var game_speed_label: Label = $GameSpeed/GameSpeedLabel
-@onready var wave_label: Label = $WaveLabel
-@onready var gold_label: Label = $GoldLabel
-@onready var earned_rp: Label = $EarnedRP
 
-@onready var tower_info_panel: Panel = $TowerInfoPanel
-@onready var tower_type: Label = $TowerInfoPanel/TowerType
-@onready var tower_level: Label = $TowerInfoPanel/TowerLevel
-@onready var upgrade_button: Button = $TowerInfoPanel/UpgradeButton
-@onready var sell_button: Button = $TowerInfoPanel/SellButton
-@onready var upgrade_description_1: Label = $TowerInfoPanel/UpgradeDescriptions/UpgradeDescription1
-@onready var upgrade_description_2: Label = $TowerInfoPanel/UpgradeDescriptions/UpgradeDescription2
-@onready var upgrade_description_3: Label = $TowerInfoPanel/UpgradeDescriptions/UpgradeDescription3
-@onready var upgrade_description_4: Label = $TowerInfoPanel/UpgradeDescriptions/UpgradeDescription4
+## Game speed
+@onready var game_speed_label: Label = %GameSpeedLabel
+@onready var game_speed_one_button: Button = %GameSpeedOneButton
+@onready var game_speed_two_button: Button = %GameSpeedTwoButton
+@onready var game_speed_four_button: Button = %GameSpeedFourButton
 
-@onready var wave_info_header: Label = $WaveInfoPanel/WaveInfoHeader
-@onready var wave_enemies: Label = $WaveInfoPanel/WaveEnemies
+## ----------------------
+## ------- CENTER -------
+## ----------------------
 
+## Pause panel
+@onready var pause_panel: Panel = $PausePanel
+@onready var unpause_button: Button = %UnpauseButton
+@onready var quit_level_button: Button = %QuitLevelButton
+
+## Win panel
 @onready var win_panel: Panel = $WinPanel
-@onready var win_research_points_earned: Label = $WinPanel/ResearchPointsEarned
-@onready var win_back_to_command_center: Button = $WinPanel/BackToCommandCenter
+@onready var win_research_points_earned: Label = %WinRPEarned
+@onready var win_back_to_command_center: Button = %WinBack
 
+## Loss panel
 @onready var loss_panel: Panel = $LossPanel
-@onready var loss_research_points_earned: Label = $LossPanel/ResearchPointsEarned
-@onready var loss_back_to_command_center: Button = $LossPanel/BackToCommandCenter
+@onready var loss_research_points_earned: Label = %LossRPEarned
+@onready var loss_back_to_command_center: Button = %LossBack
+
+## --------------------------
+## ------- RIGHT SIDE -------
+## --------------------------
+
+## Wave
+@onready var start_wave_button: Button = %StartWaveButton
+@onready var wave_label: Label = %WaveLabel
+
+## Wave info panel
+@onready var wave_info_panel: Panel = %WaveInfoPanel
+@onready var wave_info_header: Label = %WaveInfoHeader
+@onready var wave_enemies: Label = %WaveEnemies
+
+## Tower info panel
+@onready var tower_info_panel: Panel = %TowerInfoPanel
+@onready var tower_type: Label = %TowerType
+@onready var tower_level: Label = %TowerLevel
+@onready var upgrade_button: Button = %UpgradeButton
+@onready var sell_button: Button = %SellButton
+@onready var upgrade_description_1: Label = %UpgradeDescription1
+@onready var upgrade_description_2: Label = %UpgradeDescription2
+@onready var upgrade_description_3: Label = %UpgradeDescription3
+@onready var upgrade_description_4: Label = %UpgradeDescription4
+
+## FPS label
+@onready var fps_label: Label = %FPSLabel
 
 func _ready() -> void:
 	connect_signals()
@@ -44,13 +78,27 @@ func _ready() -> void:
 	win_panel.visible = false
 	loss_panel.visible = false
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("escape"): # HUD will receive this input before game manager
+		if LevelState.tower_selection != null or LevelState.is_building:
+		#if LevelState.tower_selection != null:
+			return
+		
+		print(LevelState.tower_selection)
+		print("escape in hud")
+		Engine.time_scale = game_speed if LevelState.paused else 0
+		LevelState.paused = not LevelState.paused
+		
+		get_viewport().set_input_as_handled()
+
 func _process(_delta: float) -> void:
 	fps_label.text = str(Engine.get_frames_per_second()) + " FPS"
 	
 	wave_label.text = "Wave " + str(LevelState.wave) + "/" + str(GameC.level_wave_data[1].size())
 	gold_label.text = "Gold (g): " + str(LevelState.gold)
 	earned_rp.text = "Earned RP: " + str(LevelState.earned_rp)
-	game_speed_label.text = "Game Speed: " + str(Engine.time_scale) + "x"
+	#game_speed_label.text = "Game Speed: " + str(Engine.time_scale) + "x"
+	game_speed_label.text = "Game Speed: " + str(game_speed) + "x"
 	
 	if LevelState.wave_active:
 		start_wave_button.disabled = true
@@ -75,6 +123,9 @@ func _process(_delta: float) -> void:
 	
 	if LevelState.level_lost:
 		level_lost()
+	
+	# TODO: use this cool trick elsewhere
+	pause_panel.visible = LevelState.paused
 
 func connect_signals() -> void:
 	start_wave_button.button_down.connect(_on_start_wave_button_down)
@@ -88,7 +139,8 @@ func connect_signals() -> void:
 	zap_tower_button.button_down.connect(_on_zap_tower_button_down)
 	win_back_to_command_center.button_down.connect(_on_back_to_command_center_button_down)
 	loss_back_to_command_center.button_down.connect(_on_back_to_command_center_button_down)
-	#SignalBus.level_over.connect(_on_level_over)
+	unpause_button.button_down.connect(_on_unpause_button_down)
+	quit_level_button.button_down.connect(_on_quit_level_button_down)
 
 func set_button_state(button: Button, disabledCondition: bool, disabledText: String = "",
 						enabledText: String = "") -> void:
@@ -220,13 +272,30 @@ func _on_zap_tower_button_down() -> void:
 	SignalBus.update_building_selection.emit(GameC.TowerType.ZAP)
 
 func _on_game_speed_one_button_down() -> void:
-	Engine.time_scale = 1.0
+	game_speed = 1
+	if LevelState.paused:
+		return
+	Engine.time_scale = 1
 
 func _on_game_speed_two_button_down() -> void:
-	Engine.time_scale = 2.0
+	game_speed = 2
+	if LevelState.paused:
+		return
+	Engine.time_scale = 2
 
 func _on_game_speed_four_button_down() -> void:
-	Engine.time_scale = 4.0
+	game_speed = 4
+	if LevelState.paused:
+		return
+	Engine.time_scale = 4
 
 func _on_back_to_command_center_button_down() -> void:
+	get_tree().change_scene_to_file("res://ui/menu_command_center.tscn")
+
+func _on_unpause_button_down() -> void:
+	LevelState.paused = false
+	Engine.time_scale = game_speed
+
+func _on_quit_level_button_down() -> void:
+	LevelState.paused = false
 	get_tree().change_scene_to_file("res://ui/menu_command_center.tscn")

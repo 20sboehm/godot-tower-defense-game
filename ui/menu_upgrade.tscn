@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxrdybr1h6jc6"]
 
-[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://globals_and_resources/main_theme.tres" id="1_04d3m"]
+[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://assets/styles/main_theme.tres" id="1_04d3m"]
 [ext_resource type="Script" path="res://ui/menu_upgrade.gd" id="1_e4fx8"]
 
 [node name="UpgradeMenu" type="Control"]
@@ -14,14 +14,16 @@ theme = ExtResource("1_04d3m")
 script = ExtResource("1_e4fx8")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 912.0
-offset_bottom = 912.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.247059, 0.219608, 0.172549, 1)
 
 [node name="ResearchPointsLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
@@ -29,70 +31,136 @@ offset_right = 157.0
 offset_bottom = 39.0
 text = "RP: 0"
 
-[node name="Title" type="Label" parent="."]
+[node name="Menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Menu"]
 layout_mode = 0
-offset_left = 256.0
-offset_top = 96.0
-offset_right = 640.0
-offset_bottom = 153.0
-theme_override_font_sizes/font_size = 32
+offset_left = -300.0
+offset_top = -392.0
+offset_right = 340.0
+offset_bottom = -264.0
+theme_override_font_sizes/font_size = 72
 text = "Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartGold" type="Panel" parent="."]
+[node name="StartGold" type="Panel" parent="Menu"]
 layout_mode = 0
-offset_left = 336.0
-offset_top = 172.0
-offset_right = 560.0
-offset_bottom = 316.0
+offset_left = -380.0
+offset_top = -264.0
+offset_right = 4.0
+offset_bottom = -8.0
 
-[node name="StartGoldTitle" type="Label" parent="StartGold"]
+[node name="StartGoldTitle" type="Label" parent="Menu/StartGold"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_top = 8.0
-offset_right = 224.0
-offset_bottom = 31.0
-theme_override_font_sizes/font_size = 16
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 368.0
+offset_bottom = 52.0
 text = "Starting Gold (1/20)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartGoldCurrent" type="Label" parent="StartGold"]
+[node name="StartGoldCurrent" type="Label" parent="Menu/StartGold"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 48.0
-offset_top = 32.0
-offset_right = 176.0
-offset_bottom = 55.0
-theme_override_font_sizes/font_size = 12
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 368.0
+offset_bottom = 100.0
 text = "Current: 0 gold"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartGoldNext" type="Label" parent="StartGold"]
-offset_left = 48.0
-offset_top = 52.0
-offset_right = 176.0
-offset_bottom = 75.0
-theme_override_font_sizes/font_size = 12
+[node name="StartGoldNext" type="Label" parent="Menu/StartGold"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 368.0
+offset_bottom = 148.0
 text = "Next: 0 gold"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartGoldUpgrade" type="Button" parent="StartGold"]
+[node name="StartGoldUpgrade" type="Button" parent="Menu/StartGold"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 64.0
-offset_top = 80.0
-offset_right = 160.0
-offset_bottom = 136.0
+offset_top = 160.0
+offset_right = 320.0
+offset_bottom = 242.0
 text = "Upgrade
 10 RP
 "
 
-[node name="Back" type="Button" parent="."]
+[node name="WaveClearAward" type="Panel" parent="Menu"]
+offset_left = 36.0
+offset_top = -264.0
+offset_right = 420.0
+offset_bottom = -8.0
+
+[node name="WaveClearAwardTitle" type="Label" parent="Menu/WaveClearAward"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 336.0
-offset_top = 688.0
-offset_right = 560.0
-offset_bottom = 741.0
-theme_override_font_sizes/font_size = 32
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 368.0
+offset_bottom = 52.0
+text = "Wave Clear Award (1/20)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveClearAwardCurrent" type="Label" parent="Menu/WaveClearAward"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 368.0
+offset_bottom = 100.0
+text = "Current: 0 gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveClearAwardNext" type="Label" parent="Menu/WaveClearAward"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 368.0
+offset_bottom = 148.0
+text = "Next: 0 gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveClearAwardUpgrade" type="Button" parent="Menu/WaveClearAward"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 64.0
+offset_top = 160.0
+offset_right = 320.0
+offset_bottom = 242.0
+text = "Upgrade
+10 RP"
+
+[node name="Back" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 768.0
+offset_top = 528.0
+offset_right = 1152.0
+offset_bottom = 624.0
 text = "Back"

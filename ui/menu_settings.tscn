@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://vtao2tkn6486"]
 
 [ext_resource type="Script" path="res://ui/menu_settings.gd" id="1_3p32k"]
-[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://globals_and_resources/main_theme.tres" id="2_qbean"]
+[ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://assets/styles/main_theme.tres" id="2_qbean"]
 
 [node name="SettingsMenu" type="Control"]
 layout_mode = 3
@@ -14,30 +14,92 @@ theme = ExtResource("2_qbean")
 script = ExtResource("1_3p32k")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = -32.0
-offset_top = -16.0
-offset_right = 932.0
-offset_bottom = 924.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("2_qbean")
 color = Color(0.247059, 0.219608, 0.172549, 1)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 0
-offset_left = 256.0
-offset_top = 96.0
-offset_right = 640.0
-offset_bottom = 153.0
-theme_override_font_sizes/font_size = 32
+offset_left = 640.0
+offset_top = 128.0
+offset_right = 1280.0
+offset_bottom = 256.0
+theme_override_font_sizes/font_size = 72
 text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Back" type="Button" parent="."]
+[node name="Menu" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -268.0
+offset_right = 256.0
+offset_bottom = 212.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WindowModeLabel" type="Label" parent="Menu"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 336.0
-offset_top = 176.0
-offset_right = 560.0
-offset_bottom = 273.0
-theme_override_font_sizes/font_size = 32
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 199.0
+offset_bottom = 80.0
+text = "Window Mode"
+
+[node name="WindowModeOption" type="OptionButton" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 288.0
+offset_top = 32.0
+offset_right = 480.0
+offset_bottom = 80.0
+item_count = 2
+selected = 0
+popup/item_0/text = "Windowed"
+popup/item_0/id = 1
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 0
+
+[node name="ResolutionLabel" type="Label" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 96.0
+offset_right = 156.0
+offset_bottom = 144.0
+text = "Resolution"
+vertical_alignment = 1
+
+[node name="ResolutionOption" type="OptionButton" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 288.0
+offset_top = 96.0
+offset_right = 478.0
+offset_bottom = 144.0
+item_count = 2
+selected = 0
+popup/item_0/text = "960 x 540"
+popup/item_0/id = 1
+popup/item_1/text = "1920 x 1080"
+popup/item_1/id = 0
+
+[node name="Back" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 768.0
+offset_top = 784.0
+offset_right = 1152.0
+offset_bottom = 881.0
 text = "Back"

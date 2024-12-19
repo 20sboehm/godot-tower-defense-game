@@ -37,7 +37,6 @@ func _process(delta: float) -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy") and area.get_parent().is_dead == false:
 		if deactivated:
-			print("Fireball is already being freed!")
 			return
 		deactivated = true
 		var explosion: FireballExplosion = fireball_explosion.instantiate()

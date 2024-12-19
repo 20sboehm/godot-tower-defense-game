@@ -13,48 +13,81 @@ enum TowerType {
 	ZAP,
 }
 
+enum Upgrade {
+	START_GOLD,
+	WAVE_CLEAR_AWARD,
+}
+
 var upgrade_data: Dictionary = {
-	"start_gold": {
-		1: {
-			"upgrade_cost": 0,
-			"value": 200,
-		},
-		2: {
-			"upgrade_cost": 10,
-			"value": 400,
-		},
-		3: {
-			"upgrade_cost": 20,
-			"value": 600,
-		},
-		4: {
-			"upgrade_cost": 40,
-			"value": 900,
-		},
-		5: {
-			"upgrade_cost": 60,
-			"value": 1200,
-		},
-		6: {
-			"upgrade_cost": 90,
-			"value": 1600,
-		},
-		7: {
-			"upgrade_cost": 120,
-			"value": 2000,
-		},
-		8: {
-			"upgrade_cost": 160,
-			"value": 2500,
-		},
-		9: {
-			"upgrade_cost": 200,
-			"value": 3000,
-		},
-		10: {
-			"upgrade_cost": 250,
-			"value": 3600,
-		},
+	Upgrade.START_GOLD: {
+		"label": "Start Gold",
+		"lvl_data": {
+			1: {
+				"upgrade_cost": 0,
+				"value": 250,
+			},
+			2: {
+				"upgrade_cost": 10,
+				"value": 400,
+			},
+			3: {
+				"upgrade_cost": 20,
+				"value": 600,
+			},
+			4: {
+				"upgrade_cost": 40,
+				"value": 900,
+			},
+			5: {
+				"upgrade_cost": 60,
+				"value": 1200,
+			},
+			6: {
+				"upgrade_cost": 90,
+				"value": 1600,
+			},
+			7: {
+				"upgrade_cost": 120,
+				"value": 2000,
+			},
+			8: {
+				"upgrade_cost": 160,
+				"value": 2500,
+			},
+			9: {
+				"upgrade_cost": 200,
+				"value": 3000,
+			},
+			10: {
+				"upgrade_cost": 250,
+				"value": 3600,
+			},
+		}
+	},
+	Upgrade.WAVE_CLEAR_AWARD: {
+		"label": "Wave Clear Award",
+		"lvl_data": {
+			1: {
+				"upgrade_cost": 10,
+				"value": 100,
+			},
+			2: {
+				"upgrade_cost": 20,
+				"value": 120,
+			},
+			3: {
+				"upgrade_cost": 40,
+				"value": 150,
+			},
+			4: {
+				"upgrade_cost": 60,
+				"value": 180,
+			},
+			5: {
+				"upgrade_cost": 100,
+				"value": 220,
+			},
+		}
 	}
 }
 
@@ -157,7 +190,7 @@ var level_wave_data: Dictionary = {
 			{
 				"enemy_type": EnemyType.BLUE_SLIME,
 				"count": 50,
-				"wait_time": 0.4
+				"wait_time": 0.2
 			},
 			{
 				"enemy_type": EnemyType.GREEN_SLIME,
@@ -167,7 +200,7 @@ var level_wave_data: Dictionary = {
 			{
 				"enemy_type": EnemyType.BLUE_SLIME,
 				"count": 50,
-				"wait_time": 0.4
+				"wait_time": 0.2
 			},
 		],
 		9: [
@@ -196,7 +229,8 @@ var level_wave_data: Dictionary = {
 var e_data: Dictionary = {
 	EnemyType.GREEN_SLIME: {
 		"hp": 1,
-		"speed": 0.06,
+		#"speed": 0.06,
+		"speed": 40,
 		"tower_damage": 1,
 		"label": "Green Slime",
 		"gold_award": 5,
@@ -204,7 +238,8 @@ var e_data: Dictionary = {
 	},
 	EnemyType.BLUE_SLIME: {
 		"hp": 3,
-		"speed": 0.07,
+		#"speed": 0.07,
+		"speed": 50,
 		"tower_damage": 2,
 		"label": "Blue Slime",
 		"gold_award": 10,
@@ -212,7 +247,8 @@ var e_data: Dictionary = {
 	},
 	EnemyType.TANK_SLIME: {
 		"hp": 15,
-		"speed": 0.05,
+		#"speed": 0.05,
+		"speed": 35,
 		"tower_damage": 3,
 		"label": "Tank Slime",
 		"gold_award": 15,
@@ -258,7 +294,7 @@ var t_data: Dictionary = {
 			},
 			4: {
 				"upgrade_cost": 400,
-				"upgrade_desc": "Attack delay 1.4s -> 0.7s (-50%)",
+				"upgrade_desc": "Attack delay -50%",
 				"stats": {
 					"damage": 1,
 					"attack_range": 120,
@@ -292,7 +328,7 @@ var t_data: Dictionary = {
 			},
 			3: {
 				"upgrade_cost": 700,
-				"upgrade_desc": "Attack delay 2.7s -> 1.6s (-40%)",
+				"upgrade_desc": "Attack delay -40%",
 				"stats": {
 					"damage": 2,
 					"attack_range": 60,
@@ -327,7 +363,7 @@ var t_data: Dictionary = {
 			},
 			3: {
 				"upgrade_cost": 450,
-				"upgrade_desc": "Attack delay 3.6s -> 2.2s (-40%)",
+				"upgrade_desc": "Attack delay -40%",
 				"stats": {
 					"damage": 1,
 					"attack_range": 70,
@@ -339,4 +375,4 @@ var t_data: Dictionary = {
 	},
 }
 
-const wave_award = 100
+#const wave_award = 100

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cwn5m0itcafwu" path="res://entities/towers/tower_archer.png" id="2_4s8je"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bccpg"]
-size = Vector2(24, 22)
+size = Vector2(24, 26)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gwupi"]
 resource_local_to_scene = true
@@ -19,6 +19,7 @@ texture = ExtResource("2_4s8je")
 hframes = 5
 
 [node name="ClickBoxCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_bccpg")
 
 [node name="EnemyTargeter" type="Area2D" parent="."]
