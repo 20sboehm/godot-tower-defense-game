@@ -1,10 +1,14 @@
-extends Enemy
+extends SlimeBase
 
 @onready var health_bar: ProgressBar = $HealthBar
+
+func _init() -> void:
+	set_inspector_properties()
 
 func _ready() -> void:
 	enemy_type = GameC.EnemyType.TANK_SLIME
 	initialize_enemy()
+	health_bar.max_value = max_health
 	health_bar.value = health
 
 func _process(delta: float) -> void:

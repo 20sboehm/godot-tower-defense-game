@@ -5,7 +5,7 @@ func _ready() -> void:
 	tower_type = GameC.TowerType.ARCHER
 	initialize_tower()
 	set_tower_level(level)
-	attack_timer.timeout.connect(_on_attack_timer_timeout)
+	#attack_timer.timeout.connect(_on_attack_timer_timeout)
 
 func _process(_delta: float) -> void:
 	if not attack_ready:

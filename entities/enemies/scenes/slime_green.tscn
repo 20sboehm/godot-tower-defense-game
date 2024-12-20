@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://q7yly8jvg20a"]
 
-[ext_resource type="Script" path="res://entities/enemies/slime_green.gd" id="1_7cet1"]
-[ext_resource type="Texture2D" uid="uid://crxdin3okhu7r" path="res://entities/enemies/slime_green.png" id="2_i5l0w"]
+[ext_resource type="Script" path="res://entities/enemies/slime_green.gd" id="1_6lwyb"]
+[ext_resource type="Texture2D" uid="uid://crxdin3okhu7r" path="res://entities/enemies/slime_green.png" id="2_7si08"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ierv4"]
 size = Vector2(16, 13)
@@ -79,16 +79,16 @@ _data = {
 [node name="GreenSlime" type="PathFollow2D"]
 rotates = false
 loop = false
-script = ExtResource("1_7cet1")
+script = ExtResource("1_6lwyb")
 
-[node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
+[node name="Hitbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ierv4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_i5l0w")
+texture = ExtResource("2_7si08")
 hframes = 4
 vframes = 2
 

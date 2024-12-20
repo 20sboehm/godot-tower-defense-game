@@ -6,7 +6,7 @@ func _init() -> void:
 	set_inspector_properties()
 
 func _ready() -> void:
-	enemy_type = GameC.EnemyType.BLUE_SLIME
+	enemy_type = GameC.EnemyType.SLIME_BOSS_ONE
 	initialize_enemy()
 	health_bar.max_value = max_health
 	health_bar.value = health

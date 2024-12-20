@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://u4r88ahkktm2"]
+[gd_scene load_steps=5 format=3 uid="uid://u4r88ahkktm2"]
 
 [ext_resource type="Theme" uid="uid://bcrd7oeovct3u" path="res://assets/styles/main_theme.tres" id="1_h8ch7"]
 [ext_resource type="Script" path="res://ui/menu_level_select.gd" id="1_q6b8p"]
-[ext_resource type="Texture2D" uid="uid://cgetmmyi4o2xu" path="res://assets/sprites/forest_level.PNG" id="3_lx286"]
+[ext_resource type="Texture2D" uid="uid://ba2gj8pclsmbx" path="res://ui/icon_forest.PNG" id="3_xfwpt"]
+[ext_resource type="Texture2D" uid="uid://hu7r1cbu6bpl" path="res://ui/icon_snow.PNG" id="4_lc28j"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -51,13 +52,26 @@ vertical_alignment = 1
 [node name="Level1" type="Button" parent="Menu"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = -172.0
+offset_left = -380.0
 offset_top = -248.0
-offset_right = 217.0
-offset_bottom = 40.0
+offset_right = 4.0
+offset_bottom = -8.0
 theme_override_font_sizes/font_size = 54
 text = "Start Level 1"
-icon = ExtResource("3_lx286")
+icon = ExtResource("3_xfwpt")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Level2" type="Button" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 36.0
+offset_top = -248.0
+offset_right = 420.0
+offset_bottom = -8.0
+theme_override_font_sizes/font_size = 54
+text = "Start Level 2"
+icon = ExtResource("4_lc28j")
 icon_alignment = 1
 expand_icon = true
 

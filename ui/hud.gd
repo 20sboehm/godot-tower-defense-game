@@ -290,6 +290,7 @@ func _on_game_speed_four_button_down() -> void:
 	Engine.time_scale = 4
 
 func _on_back_to_command_center_button_down() -> void:
+	LevelState.paused = false
 	get_tree().change_scene_to_file("res://ui/menu_command_center.tscn")
 
 func _on_unpause_button_down() -> void:
@@ -298,4 +299,5 @@ func _on_unpause_button_down() -> void:
 
 func _on_quit_level_button_down() -> void:
 	LevelState.paused = false
+	Engine.time_scale = 1
 	get_tree().change_scene_to_file("res://ui/menu_command_center.tscn")

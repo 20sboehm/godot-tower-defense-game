@@ -1,4 +1,7 @@
-extends Enemy
+extends SlimeBase
+
+func _init() -> void:
+	set_inspector_properties()
 
 func _ready() -> void:
 	enemy_type = GameC.EnemyType.GREEN_SLIME

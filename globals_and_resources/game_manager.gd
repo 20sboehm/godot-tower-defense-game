@@ -6,7 +6,8 @@ var selected_tower_blueprint: GameC.TowerType = GameC.TowerType.NONE:
 		selected_tower_blueprint = new_selection
 		if new_selection == GameC.TowerType.NONE:
 			LevelState.is_building = false
-			remove_child(icon)
+			if icon.get_parent() != null: # Remove the icon if its in the scene
+				remove_child(icon)
 			return
 		LevelState.is_building = true
 		match (new_selection):
@@ -168,11 +169,11 @@ func check_buildable(_pos: Vector2) -> bool:
 		if not tile_map.is_buildable(check):
 			buildable = false
 		
-		var space_state = get_world_2d().direct_space_state
-		var query = PhysicsPointQueryParameters2D.new()
+		var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+		var query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()
 		query.collision_mask = 2
 		query.position = check
-		var result = space_state.intersect_point(query)
+		var result: Array[Dictionary] = space_state.intersect_point(query)
 		if result != []:
 			no_collisions = false
 	
@@ -189,11 +190,11 @@ func check_buildable_quadrants(_pos: Vector2) -> Array[bool]:
 	var quadrants: Array[bool] = []
 	
 	for i in range(checks.size()):
-		var space_state = get_world_2d().direct_space_state
-		var query = PhysicsPointQueryParameters2D.new()
+		var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+		var query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()
 		query.collision_mask = 2
 		query.position = checks[i]
-		var result = space_state.intersect_point(query)
+		var result: Array[Dictionary] = space_state.intersect_point(query)
 		
 		if result == [] and tile_map.is_buildable(checks[i]):
 			quadrants.append(true)
@@ -212,6 +213,8 @@ func _on_user_interface_update_building_selection(tower_selection: GameC.TowerTy
 	if LevelState.paused:
 		return
 	
+	LevelState.tower_selection = null
+	
 	if selected_tower_blueprint == GameC.TowerType.NONE:
 		selected_tower_blueprint = tower_selection
 	else:
@@ -223,7 +226,7 @@ func _on_user_interface_wave_start() -> void:
 
 # Tower selection (for upgrades, selling, etc.)
 func _on_tower_clicked(tower_clicked: Tower) -> void:
-	if LevelState.paused:
+	if LevelState.paused or selected_tower_blueprint != GameC.TowerType.NONE:
 		return
 	
 	LevelState.tower_selection = tower_clicked

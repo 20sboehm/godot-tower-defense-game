@@ -108,6 +108,7 @@ text = "Upgrade
 "
 
 [node name="WaveClearAward" type="Panel" parent="Menu"]
+layout_mode = 0
 offset_left = 36.0
 offset_top = -264.0
 offset_right = 420.0

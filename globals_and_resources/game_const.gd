@@ -4,6 +4,9 @@ enum EnemyType {
 	GREEN_SLIME,
 	BLUE_SLIME,
 	TANK_SLIME,
+	ICE_SLIME,
+	SLIME_BOSS_ONE,
+	SLIME_BOSS_TWO,
 }
 
 enum TowerType {
@@ -222,6 +225,50 @@ var level_wave_data: Dictionary = {
 				"wait_time": 0.2
 			},
 		],
+		11: [
+			{
+				"enemy_type": EnemyType.SLIME_BOSS_ONE,
+				"count": 1,
+				"wait_time": 1.0
+			}
+		]
+	},
+	2: {
+		1: [
+			# Phase
+			{
+				"enemy_type": EnemyType.ICE_SLIME,
+				"count": 1,
+				"wait_time": 5.0
+			},
+			{
+				"enemy_type": EnemyType.BLUE_SLIME,
+				"count": 1,
+				"wait_time": 5.0
+			},
+		],
+		#1: [
+			## Phase
+			#{
+				#"enemy_type": EnemyType.BLUE_SLIME,
+				#"count": 1,
+				#"wait_time": 0.6
+			#},
+		#],
+		2: [
+			{
+				"enemy_type": EnemyType.BLUE_SLIME,
+				"count": 10,
+				"wait_time": 0.6
+			},
+		],
+		3: [
+			{
+				"enemy_type": EnemyType.BLUE_SLIME,
+				"count": 15,
+				"wait_time": 0.6
+			},
+		],
 	}
 }
 
@@ -229,7 +276,6 @@ var level_wave_data: Dictionary = {
 var e_data: Dictionary = {
 	EnemyType.GREEN_SLIME: {
 		"hp": 1,
-		#"speed": 0.06,
 		"speed": 40,
 		"tower_damage": 1,
 		"label": "Green Slime",
@@ -238,7 +284,6 @@ var e_data: Dictionary = {
 	},
 	EnemyType.BLUE_SLIME: {
 		"hp": 3,
-		#"speed": 0.07,
 		"speed": 50,
 		"tower_damage": 2,
 		"label": "Blue Slime",
@@ -247,12 +292,35 @@ var e_data: Dictionary = {
 	},
 	EnemyType.TANK_SLIME: {
 		"hp": 15,
-		#"speed": 0.05,
 		"speed": 35,
 		"tower_damage": 3,
 		"label": "Tank Slime",
 		"gold_award": 15,
 		"rp_award": 3,
+	},
+	EnemyType.ICE_SLIME: {
+		"hp": 5,
+		"speed": 40,
+		"tower_damage": 5,
+		"label": "Ice Slime",
+		"gold_award": 20,
+		"rp_award": 5,
+	},
+	EnemyType.SLIME_BOSS_ONE: {
+		"hp": 500,
+		"speed": 20,
+		"tower_damage": 100000,
+		"label": "Gelatinous Terror",
+		"gold_award": 500,
+		"rp_award": 200,
+	},
+	EnemyType.SLIME_BOSS_TWO: {
+		"hp": 2000,
+		"speed": 30,
+		"tower_damage": 100000,
+		"label": "Frozen Monstrosity",
+		"gold_award": 2000,
+		"rp_award": 1000,
 	},
 }
 

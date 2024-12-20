@@ -14,7 +14,7 @@ func _ready() -> void:
 	tower_type = GameC.TowerType.ZAP
 	initialize_tower()
 	set_tower_level(level)
-	attack_timer.timeout.connect(_on_attack_timer_timeout)
+	#attack_timer.timeout.connect(_on_attack_timer_timeout)
 	chain_timer.timeout.connect(_on_chain_timer_timeout)
 
 func _process(_delta: float) -> void:

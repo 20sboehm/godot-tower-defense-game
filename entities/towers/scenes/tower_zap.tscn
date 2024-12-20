@@ -33,3 +33,5 @@ shape = SubResource("CircleShape2D_dsb8l")
 [node name="ChainTimer" type="Timer" parent="EnemyTargeter"]
 wait_time = 0.05
 one_shot = true
+
+[node name="IcedTimer" type="Timer" parent="."]

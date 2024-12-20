@@ -44,14 +44,18 @@ func spawn_enemy(e_type: GameC.EnemyType) -> void:
 	var path: Path2D = choose_path()
 	
 	# Trying to store the slime object in GameC results in cyclic reference
-	var slime: Enemy
+	var slime: SlimeBase
 	match (e_type):
 		GameC.EnemyType.GREEN_SLIME:
-			slime = load("res://entities/enemies/slime_green.tscn").instantiate()
+			slime = load("res://entities/enemies/scenes/slime_green.tscn").instantiate()
 		GameC.EnemyType.BLUE_SLIME:
-			slime = load("res://entities/enemies/slime_blue.tscn").instantiate()
+			slime = load("res://entities/enemies/scenes/slime_blue.tscn").instantiate()
 		GameC.EnemyType.TANK_SLIME:
-			slime = load("res://entities/enemies/slime_tank.tscn").instantiate()
+			slime = load("res://entities/enemies/scenes/slime_tank.tscn").instantiate()
+		GameC.EnemyType.ICE_SLIME:
+			slime = load("res://entities/enemies/scenes/slime_ice.tscn").instantiate()
+		GameC.EnemyType.SLIME_BOSS_ONE:
+			slime = load("res://entities/enemies/scenes/slime_boss_1.tscn").instantiate()
 	path.add_child(slime)
 
 func choose_path() -> Path2D:

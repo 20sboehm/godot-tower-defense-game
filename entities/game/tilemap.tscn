@@ -1,27 +1,51 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2wqyld1dfe13"]
 
-[ext_resource type="Texture2D" uid="uid://bk6u6d4m2s8wd" path="res://entities/game/path_tileset.png" id="1_ifsee"]
+[ext_resource type="Texture2D" uid="uid://buh227hig2j51" path="res://entities/game/tileset.png" id="1_uwcvg"]
 [ext_resource type="Script" path="res://entities/game/tilemap.gd" id="2_6rkdf"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6xf3x"]
-texture = ExtResource("1_ifsee")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8gs0x"]
+texture = ExtResource("1_uwcvg")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+0:1/0 = 0
 1:1/0 = 0
 1:1/0/custom_data_0 = true
 2:1/0 = 0
-2:0/0 = 0
-0:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+4:1/0/custom_data_0 = true
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+7:1/0/custom_data_0 = true
+8:1/0 = 0
 0:2/0 = 0
 1:2/0 = 0
 2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:0/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+10:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_pru7n"]
 tile_size = Vector2i(32, 32)
 custom_data_layer_0/name = "buildable"
 custom_data_layer_0/type = 1
-sources/2 = SubResource("TileSetAtlasSource_6xf3x")
+sources/0 = SubResource("TileSetAtlasSource_8gs0x")
 
 [node name="TileMap" type="TileMap"]
 z_index = -50

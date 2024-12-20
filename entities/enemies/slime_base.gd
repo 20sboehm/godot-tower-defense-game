@@ -1,4 +1,4 @@
-class_name Enemy
+class_name SlimeBase
 extends PathFollow2D
 
 var enemy_type: GameC.EnemyType
@@ -9,21 +9,36 @@ var health: int
 var speed: float
 var tower_damage: int
 
-@onready var area: Area2D = $Area2D
+#@onready var area: Area2D = $Area2D
+@onready var hitbox: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var flash_timer: Timer = $FlashTimer
 @onready var zap_timer: Timer = $ZapTimer
 
+func set_inspector_properties() -> void:
+	rotates = false
+	loop = false
+
 func initialize_enemy() -> void:
-	max_health = GameC.e_data[enemy_type]["hp"]
+	hitbox.add_to_group("enemy")
+	connect_signals()
+	
+	#rotates = false
+	#loop = false
+	
+	# Set stats
+	max_health = GameC.e_data[enemy_type]["hp"]  
 	health = max_health
 	speed = GameC.e_data[enemy_type]["speed"]
 	tower_damage = GameC.e_data[enemy_type]["tower_damage"]
-	area.area_entered.connect(_on_area_entered)
+
+func connect_signals() -> void:
+	hitbox.area_entered.connect(_on_area_entered)
 	flash_timer.timeout.connect(_on_flash_timer_timeout)
 	zap_timer.timeout.connect(_on_zap_timer_timeout)
 
 func take_damage(damage: int) -> void:
+	print(damage)
 	health -= damage
 	if health <= 0:
 		is_dead = true

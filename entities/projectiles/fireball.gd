@@ -14,7 +14,7 @@ var level: int
 
 @onready var lifetime_timer: Timer = $LifetimeTimer
 
-static func create(angle_from_tower_in_rads: float, _range: float, _level) -> Fireball:
+static func create(angle_from_tower_in_rads: float, _range: float, _level: int) -> Fireball:
 	var fireball: Fireball = load("res://entities/projectiles/fireball.tscn").instantiate()
 	fireball.velocity = Vector2.RIGHT.rotated(angle_from_tower_in_rads)
 	fireball.rot_in_rads = angle_from_tower_in_rads

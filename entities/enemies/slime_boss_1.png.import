@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgetmmyi4o2xu"
-path="res://.godot/imported/forest_level.PNG-d6216e2098eb747f7fe840213b61af24.ctex"
+uid="uid://c075fgbteqvu"
+path="res://.godot/imported/slime_boss_1.png-9a1a928e199f5a843c6b8066a89c141a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/forest_level.PNG"
-dest_files=["res://.godot/imported/forest_level.PNG-d6216e2098eb747f7fe840213b61af24.ctex"]
+source_file="res://entities/enemies/slime_boss_1.png"
+dest_files=["res://.godot/imported/slime_boss_1.png-9a1a928e199f5a843c6b8066a89c141a.ctex"]
 
 [params]
 
