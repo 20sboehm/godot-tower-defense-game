@@ -44,6 +44,8 @@ layer_0/tile_data = PackedInt32Array(-1245214, 65536, 1, -1179678, 65536, 1, -11
 position = Vector2(-177.333, -268.333)
 
 [node name="Tree" parent="." instance=ExtResource("5_8qnr3")]
+light_mask = 16
+visibility_layer = 16
 position = Vector2(-14.3333, 62.3334)
 
 [node name="EnemyPath" type="Path2D" parent="."]

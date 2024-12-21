@@ -7,6 +7,7 @@
 bg_color = Color(0.192157, 0.172549, 0.133333, 0.623529)
 
 [node name="HUD" type="Control"]
+modulate = Color(0.980392, 0.980392, 0.980392, 1)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +33,7 @@ offset_bottom = 512.0
 
 [node name="GoldLabel" type="Label" parent="Sidebar"]
 unique_name_in_owner = true
+modulate = Color(0.980392, 0.980392, 0.980392, 1)
 layout_mode = 0
 offset_left = 32.0
 offset_top = 32.0
@@ -89,6 +91,7 @@ text = "Zap Tower
 
 [node name="BeamTowerButton" type="Button" parent="Sidebar/BuildTowerButtons"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 24.0
 offset_top = 408.0
 offset_right = 232.0

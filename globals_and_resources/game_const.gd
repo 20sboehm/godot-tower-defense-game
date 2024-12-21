@@ -447,12 +447,12 @@ var t_data: Dictionary = {
 				"stats": {
 					"damage": 1,
 					"atk_range": 80,
-					"atk_cooldown": 0.4,
+					"atk_cooldown": 0.3,
 				},
 			},
 			2: {
 				"upgrade_cost": 650,
-				"upgrade_desc": "Attack delay -50%",
+				"upgrade_desc": "Attack delay -33%",
 				"stats": {
 					"damage": 1,
 					"atk_range": 80,

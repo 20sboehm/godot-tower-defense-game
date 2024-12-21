@@ -34,11 +34,12 @@ func _process(delta: float) -> void:
 	var closest_target: Area2D = get_closest_target(enemy_targeter.global_position, targets)
 	var angle_to_target: float = get_angle_to_closest_target(closest_target)
 	
-	var pos: Vector2 = closest_target.global_position
+	var pos: Vector2 = closest_target.global_position - enemy_targeter.global_position
 	var distance: float = enemy_targeter.global_position.distance_to(closest_target.global_position)
 	beam.set_target_position_distance_and_angle(pos, distance, angle_to_target)
 	beam.visible = true
-	beam.toggle_glow(true)
+	#beam.toggle_glow(true)
+	#beam.toggle_emitting(true)
 	
 	if attack_ready:
 		attack_ready = false
@@ -50,4 +51,5 @@ func set_tower_level(_lvl: int) -> void:
 
 func _disable_beam_delay() -> void:
 	beam.visible = false
-	beam.toggle_glow(false)
+	#beam.toggle_glow(false)
+	#beam.toggle_emitting(false)
