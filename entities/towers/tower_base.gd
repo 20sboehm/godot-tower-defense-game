@@ -1,17 +1,23 @@
 class_name Tower
 extends StaticBody2D
 
-var level: int = 1
-var attack_ready: bool = true
+var lvl: int = 1 # Level
+var attack_ready: bool = false:
+	set(val):
+		attack_ready = val
+		if not val:
+			atk_cooldown_progress = 0
 var is_iced: bool = false
 var tower_type: GameC.TowerType
 var tower_range: float
+var atk_cooldown: float # Attack cooldown
+var atk_cooldown_progress: float = 0
 
 @onready var enemy_targeter: Area2D = $EnemyTargeter
-@onready var attack_timer: Timer = $EnemyTargeter/AttackTimer
 @onready var ice_timer: Timer = $IceTimer
 @onready var collision_shape: CollisionShape2D = $EnemyTargeter/CollisionShape2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var cooldown_indicator: TextureProgressBar = $TextureProgressBar
 
 static func create(_tower_type: GameC.TowerType, pos: Vector2) -> Tower:
 	var tower: Tower
@@ -22,6 +28,8 @@ static func create(_tower_type: GameC.TowerType, pos: Vector2) -> Tower:
 			tower = load("res://entities/towers/scenes/tower_fireball.tscn").instantiate()
 		GameC.TowerType.ZAP:
 			tower = load("res://entities/towers/scenes/tower_zap.tscn").instantiate()
+		GameC.TowerType.BEAM:
+			tower = load("res://entities/towers/scenes/tower_beam.tscn").instantiate()
 	tower.position = pos
 	return tower
 
@@ -31,22 +39,23 @@ func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> vo
 
 func initialize_tower() -> void:
 	add_to_group("tower")
-	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
+	#tower_range = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["atk_range"]
+	#atk_cooldown = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["atk_cooldown"]
 	collision_shape.shape.radius = tower_range
 	input_pickable = true
 	
-	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	ice_timer.timeout.connect(_on_ice_timer_timeout)
 
-#func get_closest_target_index(targets: Array[Area2D]) -> int:
-	#var min_distance: float = 9999
-	#var closest_target_index: int = -1
-	#for target_index in targets.size():
-		#var distance: float = enemy_targeter.global_position.distance_to(targets[target_index].global_position)
-		#if distance < min_distance:
-			#min_distance = distance
-			#closest_target_index = target_index
-	#return closest_target_index
+func handle_attack_cooldown(delta: float) -> void:
+	if attack_ready:
+		return
+	
+	var progress_scalar: float = 0.5 if is_iced else 1.0
+	
+	if atk_cooldown_progress < atk_cooldown:
+		atk_cooldown_progress += progress_scalar * delta
+	else:
+		attack_ready = true
 
 func get_closest_target(pos: Vector2, targets: Array[Area2D]) -> Area2D:
 	var min_distance: float = 9999
@@ -64,13 +73,25 @@ func get_angle_to_closest_target(closest_target: Area2D) -> float:
 	
 	return angle_in_rads
 
+func set_general_tower_level_data(_lvl: int) -> void:
+	lvl = _lvl
+	tower_range = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["atk_range"]
+	atk_cooldown = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["atk_cooldown"]
+	collision_shape.shape.radius = tower_range
+	sprite.frame = _lvl - 1
+	if not attack_ready:
+		atk_cooldown_progress = 0
+
 func set_iced() -> void:
+	if is_iced:
+		return
+	
+	is_iced = true
 	modulate = Color(1, 1.4, 1.4)
+	cooldown_indicator.tint_progress = Color("#00ffff")
 	ice_timer.start()
 
-func _on_attack_timer_timeout() -> void:
-	attack_ready = true
-
 func _on_ice_timer_timeout() -> void:
-	modulate = Color(1, 1, 1)
 	is_iced = false
+	modulate = Color(1, 1, 1)
+	cooldown_indicator.tint_progress = Color("#00c103")

@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=3 uid="uid://dnkl7whjwy8tj"]
+
+[ext_resource type="Script" path="res://entities/projectiles/beam.gd" id="1_f3c7g"]
+[ext_resource type="Texture2D" uid="uid://bvx0wrhin5r5t" path="res://entities/projectiles/glowing_circle.png" id="2_1d8ch"]
+
+[sub_resource type="Curve" id="Curve_swxk1"]
+max_value = 0.5
+_data = [Vector2(0, 0.125), 0.0, 0.0, 0, 0, Vector2(0.75, 0.125), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+metadata/_snap_count = 4
+
+[sub_resource type="Gradient" id="Gradient_ctrs4"]
+offsets = PackedFloat32Array(0, 0.728, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_pv7se"]
+max_value = 0.25
+_data = [Vector2(0, 0.125), 0.0, 0.0, 0, 0, Vector2(0.75, 0.125), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+metadata/_snap_count = 4
+
+[sub_resource type="Environment" id="Environment_yvq42"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 5.0
+glow_levels/2 = 3.0
+glow_levels/3 = 2.0
+glow_levels/4 = 1.0
+glow_levels/5 = 0.0
+glow_intensity = 2.0
+glow_blend_mode = 0
+glow_hdr_threshold = 0.5
+glow_hdr_scale = 1.0
+
+[node name="Beam" type="Line2D"]
+z_index = 10
+points = PackedVector2Array(0, 0, 80, 0)
+width = 3.0
+default_color = Color(0.41, 1, 1, 1)
+script = ExtResource("1_f3c7g")
+
+[node name="StartParticles" type="CPUParticles2D" parent="."]
+lifetime = 0.3
+texture = ExtResource("2_1d8ch")
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+scale_amount_curve = SubResource("Curve_swxk1")
+color_ramp = SubResource("Gradient_ctrs4")
+
+[node name="EndParticles" type="CPUParticles2D" parent="."]
+position = Vector2(80, 0)
+rotation = 3.14159
+lifetime = 0.3
+texture = ExtResource("2_1d8ch")
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+scale_amount_curve = SubResource("Curve_swxk1")
+color_ramp = SubResource("Gradient_ctrs4")
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="."]
+visible = false
+position = Vector2(112, 0)
+lifetime = 0.3
+texture = ExtResource("2_1d8ch")
+emission_shape = 3
+emission_rect_extents = Vector2(100, 0)
+spread = 70.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 40.0
+scale_amount_curve = SubResource("Curve_pv7se")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yvq42")

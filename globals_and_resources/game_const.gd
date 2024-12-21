@@ -14,6 +14,7 @@ enum TowerType {
 	ARCHER,
 	FIREBALL,
 	ZAP,
+	BEAM,
 }
 
 enum Upgrade {
@@ -39,31 +40,31 @@ var upgrade_data: Dictionary = {
 			},
 			4: {
 				"upgrade_cost": 40,
-				"value": 900,
+				"value": 800,
 			},
 			5: {
 				"upgrade_cost": 60,
-				"value": 1200,
+				"value": 1000,
 			},
 			6: {
 				"upgrade_cost": 90,
-				"value": 1600,
+				"value": 1200,
 			},
 			7: {
 				"upgrade_cost": 120,
-				"value": 2000,
+				"value": 1500,
 			},
 			8: {
 				"upgrade_cost": 160,
-				"value": 2500,
+				"value": 1800,
 			},
 			9: {
 				"upgrade_cost": 200,
-				"value": 3000,
+				"value": 2100,
 			},
 			10: {
 				"upgrade_cost": 250,
-				"value": 3600,
+				"value": 2400,
 			},
 		}
 	},
@@ -238,13 +239,8 @@ var level_wave_data: Dictionary = {
 			# Phase
 			{
 				"enemy_type": EnemyType.ICE_SLIME,
-				"count": 1,
-				"wait_time": 5.0
-			},
-			{
-				"enemy_type": EnemyType.BLUE_SLIME,
-				"count": 1,
-				"wait_time": 5.0
+				"count": 5,
+				"wait_time": 1.0
 			},
 		],
 		#1: [
@@ -335,8 +331,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Base stats",
 				"stats": {
 					"damage": 1,
-					"attack_range": 90,
-					"attack_rate": 1.4,
+					"atk_range": 90,
+					"atk_cooldown": 1.4,
 					"pierce": 1,
 				},
 			},
@@ -345,8 +341,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Attack range +33%",
 				"stats": {
 					"damage": 1,
-					"attack_range": 120,
-					"attack_rate": 1.4,
+					"atk_range": 120,
+					"atk_cooldown": 1.4,
 					"pierce": 1,
 				},
 			},
@@ -355,8 +351,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Arrow pierce +1",
 				"stats": {
 					"damage": 1,
-					"attack_range": 120,
-					"attack_rate": 1.4,
+					"atk_range": 120,
+					"atk_cooldown": 1.4,
 					"pierce": 2,
 				},
 			},
@@ -365,8 +361,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Attack delay -50%",
 				"stats": {
 					"damage": 1,
-					"attack_range": 120,
-					"attack_rate": 0.7,
+					"atk_range": 120,
+					"atk_cooldown": 0.7,
 					"pierce": 2,
 				},
 			},
@@ -381,8 +377,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Base stats",
 				"stats": {
 					"damage": 1,
-					"attack_range": 60,
-					"attack_rate": 2.7,
+					"atk_range": 60,
+					"atk_cooldown": 2.7,
 				},
 			},
 			2: {
@@ -390,8 +386,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Damage +1",
 				"stats": {
 					"damage": 2,
-					"attack_range": 60,
-					"attack_rate": 2.7,
+					"atk_range": 60,
+					"atk_cooldown": 2.7,
 				},
 			},
 			3: {
@@ -399,8 +395,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Attack delay -40%",
 				"stats": {
 					"damage": 2,
-					"attack_range": 60,
-					"attack_rate": 1.6,
+					"atk_range": 60,
+					"atk_cooldown": 1.6,
 				},
 			},
 		},
@@ -414,8 +410,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Base stats",
 				"stats": {
 					"damage": 1,
-					"attack_range": 70,
-					"attack_rate": 3.6,
+					"atk_range": 70,
+					"atk_cooldown": 3.6,
 					"zap_count": 3,
 				},
 			},
@@ -424,8 +420,8 @@ var t_data: Dictionary = {
 				"upgrade_desc": "+2 zap chain",
 				"stats": {
 					"damage": 1,
-					"attack_range": 70,
-					"attack_rate": 3.6,
+					"atk_range": 70,
+					"atk_cooldown": 3.6,
 					"zap_count": 5,
 				},
 			},
@@ -434,9 +430,42 @@ var t_data: Dictionary = {
 				"upgrade_desc": "Attack delay -40%",
 				"stats": {
 					"damage": 1,
-					"attack_range": 70,
-					"attack_rate": 2.2,
+					"atk_range": 70,
+					"atk_cooldown": 2.2,
 					"zap_count": 5,
+				},
+			},
+		},
+	},
+	TowerType.BEAM: {
+		"cost": 900,
+		"label": "Beam Tower",
+		"lvl_data": {
+			1: {
+				"upgrade_cost": 0,
+				"upgrade_desc": "Base stats",
+				"stats": {
+					"damage": 1,
+					"atk_range": 80,
+					"atk_cooldown": 0.4,
+				},
+			},
+			2: {
+				"upgrade_cost": 650,
+				"upgrade_desc": "Attack delay -50%",
+				"stats": {
+					"damage": 1,
+					"atk_range": 80,
+					"atk_cooldown": 0.2,
+				},
+			},
+			3: {
+				"upgrade_cost": 1100,
+				"upgrade_desc": "Damage +2",
+				"stats": {
+					"damage": 3,
+					"atk_range": 80,
+					"atk_cooldown": 0.2,
 				},
 			},
 		},

@@ -4,10 +4,12 @@ extends Tower
 func _ready() -> void:
 	tower_type = GameC.TowerType.FIREBALL
 	initialize_tower()
-	set_tower_level(level)
-	#attack_timer.timeout.connect(_on_attack_timer_timeout)
+	set_tower_level(lvl)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	cooldown_indicator.value = atk_cooldown_progress / atk_cooldown
+	handle_attack_cooldown(delta)
+	
 	if not attack_ready:
 		return
 	
@@ -21,15 +23,16 @@ func _process(_delta: float) -> void:
 	var closest_target: Area2D = get_closest_target(enemy_targeter.global_position, targets)
 	var angle_to_target: float = get_angle_to_closest_target(closest_target)
 	
-	var new_fireball: Fireball = Fireball.create(angle_to_target, tower_range, level)
+	var new_fireball: Fireball = Fireball.create(angle_to_target, tower_range, lvl)
 	enemy_targeter.add_child(new_fireball)
 	
 	attack_ready = false
-	attack_timer.start()
 
-func set_tower_level(lvl: int) -> void:
-	level = lvl
-	attack_timer.wait_time = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_rate"]
-	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
-	collision_shape.shape.radius = tower_range
-	sprite.frame = lvl - 1
+func set_tower_level(_lvl: int) -> void:
+	set_general_tower_level_data(_lvl)
+	#lvl = _lvl
+	#tower_range = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["atk_range"]
+	#atk_cooldown = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["atk_cooldown"]
+	#collision_shape.shape.radius = tower_range
+	#sprite.frame = _lvl - 1
+	#atk_cooldown_progress = 0

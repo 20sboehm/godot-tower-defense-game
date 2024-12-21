@@ -17,6 +17,8 @@ var selected_tower_blueprint: GameC.TowerType = GameC.TowerType.NONE:
 				icon.set_texture(fireball_tower_sprite)
 			GameC.TowerType.ZAP:
 				icon.set_texture(zap_tower_sprite)
+			GameC.TowerType.BEAM:
+				icon.set_texture(beam_tower_sprite)
 		icon.position = get_global_mouse_position()
 		add_child(icon)
 
@@ -26,6 +28,7 @@ var done_spawning: bool = false
 var archer_tower_sprite: Resource = preload("res://entities/towers/tower_archer.png")
 var fireball_tower_sprite: Resource = preload("res://entities/towers/tower_fireball.png")
 var zap_tower_sprite: Resource = preload("res://entities/towers/tower_zap.png")
+var beam_tower_sprite: Resource = preload("res://entities/towers/tower_beam.png")
 
 @onready var spawner: Node2D = $Spawner
 @onready var tile_map: TileMap = $TileMap
@@ -44,7 +47,6 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("escape"):
-		print("escape in game manager")
 		selected_tower_blueprint = GameC.TowerType.NONE
 		LevelState.tower_selection = null
 		get_viewport().set_input_as_handled()
@@ -77,6 +79,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				new_tower = Tower.create(GameC.TowerType.FIREBALL, tower_pos)
 			GameC.TowerType.ZAP:
 				new_tower = Tower.create(GameC.TowerType.ZAP, tower_pos)
+			GameC.TowerType.BEAM:
+				new_tower = Tower.create(GameC.TowerType.BEAM, tower_pos)
 		add_child(new_tower)
 		
 		selected_tower_blueprint = GameC.TowerType.NONE
@@ -94,12 +98,16 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
+	var white: Color = Color(1, 1, 1, 0.15)
+	
 	if LevelState.tower_selection:
 		draw_circle(
 			LevelState.tower_selection.global_position,
 			LevelState.tower_selection.tower_range, 
-			Color(1, 1, 1, 0.1)
+			white
 		)
+		#draw_arc(LevelState.tower_selection.global_position, LevelState.tower_selection.tower_range, \
+			#0, 360, 64, white, 1)
 	
 	var grey: Color = Color(1, 1, 1, 0.1)
 	var mouse_grid_pos: Vector2 = calc_grid_pos(get_global_mouse_position())
@@ -107,9 +115,12 @@ func _draw() -> void:
 	if selected_tower_blueprint != GameC.TowerType.NONE:
 		draw_circle(
 			mouse_grid_pos,
-			GameC.t_data[selected_tower_blueprint]["lvl_data"][1]["stats"]["attack_range"],
-			Color(1, 1, 1, 0.1)
+			GameC.t_data[selected_tower_blueprint]["lvl_data"][1]["stats"]["atk_range"],
+			white
 		)
+		#draw_arc(mouse_grid_pos, GameC.t_data[selected_tower_blueprint]["lvl_data"][1]["stats"]["atk_range"], \
+			#0, 360, 64, white, 1)
+		
 		
 		draw_line(mouse_grid_pos + Vector2(-16, -32), mouse_grid_pos + Vector2(-16, 32), grey, 1)
 		draw_line(mouse_grid_pos + Vector2(0, -32), mouse_grid_pos + Vector2(0, 32), grey, 1)
@@ -136,12 +147,13 @@ func connect_signals() -> void:
 
 func wave_over() -> void:
 	LevelState.wave_active = false
-	LevelState.wave += 1
-	LevelState.gold += 100
+	LevelState.gold += GameC.upgrade_data[GameC.Upgrade.WAVE_CLEAR_AWARD]["lvl_data"][GameState.wave_clear_award_lvl]["value"]
 	
-	if LevelState.wave > GameC.level_wave_data[LevelState.level].size() \
+	if LevelState.wave >= GameC.level_wave_data[LevelState.level].size() \
 		and not LevelState.level_won and not LevelState.level_lost:
 		level_over()
+	else:
+		LevelState.wave += 1
 
 func level_over() -> void:
 	LevelState.level_won = true
@@ -240,7 +252,7 @@ func _on_upgrade_tower() -> void:
 		return
 	
 	var t_type: GameC.TowerType = LevelState.tower_selection.tower_type
-	var t_lvl: int = LevelState.tower_selection.level
+	var t_lvl: int = LevelState.tower_selection.lvl
 	if LevelState.gold < GameC.t_data[t_type]["lvl_data"][t_lvl + 1]["upgrade_cost"]:
 		return
 	if t_lvl >= GameC.t_data[t_type]["lvl_data"].size():
@@ -256,7 +268,7 @@ func _on_sell_tower() -> void:
 	LevelState.tower_selection.queue_free()
 	
 	var t_type: GameC.TowerType = LevelState.tower_selection.tower_type
-	var t_lvl: int = LevelState.tower_selection.level
+	var t_lvl: int = LevelState.tower_selection.lvl
 	var sell_percent: float = 0.8
 	var refund: int = GameC.t_data[t_type]["cost"] * sell_percent
 	

@@ -102,6 +102,7 @@ shape = SubResource("CircleShape2D_bi081")
 
 [node name="AttackTimer" type="Timer" parent="TowerTargeter"]
 unique_name_in_owner = true
+wait_time = 5.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_gaq1w")

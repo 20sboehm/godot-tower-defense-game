@@ -15,12 +15,13 @@ var game_speed: int = 1 # Track game speed for pausing/unpausing
 @onready var archer_tower_button: Button = %ArcherTowerButton
 @onready var fireball_tower_button: Button = %FireballTowerButton
 @onready var zap_tower_button: Button = %ZapTowerButton
+@onready var beam_tower_button: Button = %BeamTowerButton
 
 ## Game speed
 @onready var game_speed_label: Label = %GameSpeedLabel
 @onready var game_speed_one_button: Button = %GameSpeedOneButton
 @onready var game_speed_two_button: Button = %GameSpeedTwoButton
-@onready var game_speed_four_button: Button = %GameSpeedFourButton
+#@onready var game_speed_four_button: Button = %GameSpeedFourButton
 
 ## ----------------------
 ## ------- CENTER -------
@@ -74,6 +75,7 @@ func _ready() -> void:
 	archer_tower_button.text = "Archer Tower\n" + str(GameC.t_data[GameC.TowerType.ARCHER]["cost"]) + "g"
 	fireball_tower_button.text = "Fireball Tower\n" + str(GameC.t_data[GameC.TowerType.FIREBALL]["cost"]) + "g"
 	zap_tower_button.text = "Zap Tower\n" + str(GameC.t_data[GameC.TowerType.ZAP]["cost"]) + "g"
+	beam_tower_button.text = "Beam Tower\n" + str(GameC.t_data[GameC.TowerType.BEAM]["cost"]) + "g"
 	
 	win_panel.visible = false
 	loss_panel.visible = false
@@ -81,11 +83,8 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("escape"): # HUD will receive this input before game manager
 		if LevelState.tower_selection != null or LevelState.is_building:
-		#if LevelState.tower_selection != null:
 			return
 		
-		print(LevelState.tower_selection)
-		print("escape in hud")
 		Engine.time_scale = game_speed if LevelState.paused else 0
 		LevelState.paused = not LevelState.paused
 		
@@ -94,10 +93,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	fps_label.text = str(Engine.get_frames_per_second()) + " FPS"
 	
-	wave_label.text = "Wave " + str(LevelState.wave) + "/" + str(GameC.level_wave_data[1].size())
+	wave_label.text = "Wave " + str(LevelState.wave) + "/" + str(GameC.level_wave_data[LevelState.level].size())
 	gold_label.text = "Gold (g): " + str(LevelState.gold)
 	earned_rp.text = "Earned RP: " + str(LevelState.earned_rp)
-	#game_speed_label.text = "Game Speed: " + str(Engine.time_scale) + "x"
 	game_speed_label.text = "Game Speed: " + str(game_speed) + "x"
 	
 	if LevelState.wave_active:
@@ -113,6 +111,7 @@ func _process(_delta: float) -> void:
 	set_button_state(archer_tower_button, LevelState.gold < GameC.t_data[GameC.TowerType.ARCHER]["cost"])
 	set_button_state(fireball_tower_button, LevelState.gold < GameC.t_data[GameC.TowerType.FIREBALL]["cost"])
 	set_button_state(zap_tower_button, LevelState.gold < GameC.t_data[GameC.TowerType.ZAP]["cost"])
+	set_button_state(beam_tower_button, LevelState.gold < GameC.t_data[GameC.TowerType.BEAM]["cost"])
 	
 	set_upgrade_panel_state()
 	
@@ -131,12 +130,13 @@ func connect_signals() -> void:
 	start_wave_button.button_down.connect(_on_start_wave_button_down)
 	game_speed_one_button.button_down.connect(_on_game_speed_one_button_down)
 	game_speed_two_button.button_down.connect(_on_game_speed_two_button_down)
-	game_speed_four_button.button_down.connect(_on_game_speed_four_button_down)
+	#game_speed_four_button.button_down.connect(_on_game_speed_four_button_down)
 	upgrade_button.button_down.connect(_on_upgrade_button_down)
 	sell_button.button_down.connect(_on_sell_button_down)
 	archer_tower_button.button_down.connect(_on_archer_tower_button_down)
 	fireball_tower_button.button_down.connect(_on_fireball_tower_button_down)
 	zap_tower_button.button_down.connect(_on_zap_tower_button_down)
+	beam_tower_button.button_down.connect(_on_beam_tower_button_down)
 	win_back_to_command_center.button_down.connect(_on_back_to_command_center_button_down)
 	loss_back_to_command_center.button_down.connect(_on_back_to_command_center_button_down)
 	unpause_button.button_down.connect(_on_unpause_button_down)
@@ -188,7 +188,7 @@ func set_upgrade_panel_state() -> void:
 	tower_info_panel.visible = true
 	
 	var t_type: GameC.TowerType = LevelState.tower_selection.tower_type
-	var t_lvl: int = LevelState.tower_selection.level
+	var t_lvl: int = LevelState.tower_selection.lvl
 	
 	tower_type.text = GameC.t_data[t_type]["label"]
 	tower_level.text = "Level " + str(t_lvl)
@@ -242,17 +242,6 @@ func level_lost() -> void:
 	loss_research_points_earned.text = rp_text
 	loss_panel.visible = true
 
-#func _on_level_over(win_or_loss: String) -> void:
-	#GameState.rp += LevelState.earned_rp
-	#var rp_text: String = "You earned " + str(LevelState.earned_rp) + " research points"
-	#if win_or_loss == "win":
-		#win_research_points_earned.text = rp_text
-		#win_panel.visible = true
-	#if win_or_loss == "loss":
-		#loss_research_points_earned.text = rp_text
-		#loss_panel.visible = true
-	#GameState.save_game()
-
 func _on_start_wave_button_down() -> void:
 	SignalBus.wave_start.emit()
 
@@ -271,6 +260,9 @@ func _on_fireball_tower_button_down() -> void:
 func _on_zap_tower_button_down() -> void:
 	SignalBus.update_building_selection.emit(GameC.TowerType.ZAP)
 
+func _on_beam_tower_button_down() -> void:
+	SignalBus.update_building_selection.emit(GameC.TowerType.BEAM)
+
 func _on_game_speed_one_button_down() -> void:
 	game_speed = 1
 	if LevelState.paused:
@@ -283,11 +275,11 @@ func _on_game_speed_two_button_down() -> void:
 		return
 	Engine.time_scale = 2
 
-func _on_game_speed_four_button_down() -> void:
-	game_speed = 4
-	if LevelState.paused:
-		return
-	Engine.time_scale = 4
+#func _on_game_speed_four_button_down() -> void:
+	#game_speed = 4
+	#if LevelState.paused:
+		#return
+	#Engine.time_scale = 4
 
 func _on_back_to_command_center_button_down() -> void:
 	LevelState.paused = false

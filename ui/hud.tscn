@@ -23,23 +23,30 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="GoldLabel" type="Label" parent="Sidebar"]
-unique_name_in_owner = true
+[node name="Panel" type="Panel" parent="Sidebar"]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
-offset_right = 144.0
-offset_bottom = 42.0
+offset_right = 256.0
+offset_bottom = 512.0
+
+[node name="GoldLabel" type="Label" parent="Sidebar"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 160.0
+offset_bottom = 68.0
 theme = ExtResource("1_5pwwh")
 text = "Gold (g): 0"
 
 [node name="EarnedRP" type="Label" parent="Sidebar"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 16.0
-offset_top = 56.0
-offset_right = 160.0
-offset_bottom = 90.0
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 184.0
+offset_bottom = 108.0
 theme = ExtResource("1_5pwwh")
 text = "Earned RP: 0"
 
@@ -53,75 +60,79 @@ offset_bottom = 8.0
 [node name="ArcherTowerButton" type="Button" parent="Sidebar/BuildTowerButtons"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 8.0
-offset_top = 96.0
-offset_right = 208.0
-offset_bottom = 178.0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 232.0
+offset_bottom = 202.0
 text = "Archer Tower
 0g"
 
 [node name="FireballTowerButton" type="Button" parent="Sidebar/BuildTowerButtons"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 8.0
-offset_top = 184.0
-offset_right = 208.0
-offset_bottom = 266.0
+offset_left = 24.0
+offset_top = 216.0
+offset_right = 232.0
+offset_bottom = 298.0
 text = "Fireball Tower
 0g"
 
 [node name="ZapTowerButton" type="Button" parent="Sidebar/BuildTowerButtons"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 8.0
-offset_top = 272.0
-offset_right = 208.0
-offset_bottom = 354.0
+offset_left = 24.0
+offset_top = 312.0
+offset_right = 232.0
+offset_bottom = 394.0
 text = "Zap Tower
 0g"
 
-[node name="GameSpeed" type="Control" parent="."]
+[node name="BeamTowerButton" type="Button" parent="Sidebar/BuildTowerButtons"]
+unique_name_in_owner = true
+offset_left = 24.0
+offset_top = 408.0
+offset_right = 232.0
+offset_bottom = 490.0
+text = "Beam Tower
+0g"
+
+[node name="GameSpeed" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -136.0
+offset_right = 256.0
+offset_bottom = -8.0
 grow_vertical = 0
 
 [node name="GameSpeedLabel" type="Label" parent="GameSpeed"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 16.0
-offset_top = -104.0
+offset_top = 16.0
 offset_right = 202.0
-offset_bottom = -68.0
+offset_bottom = 52.0
 text = "Game Speed: 1x"
 
 [node name="GameSpeedOneButton" type="Button" parent="GameSpeed"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 16.0
-offset_top = -64.0
+offset_top = 64.0
 offset_right = 72.0
-offset_bottom = -18.0
-text = "1x "
+offset_bottom = 110.0
+text = "1x"
 
 [node name="GameSpeedTwoButton" type="Button" parent="GameSpeed"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 80.0
-offset_top = -64.0
+offset_top = 64.0
 offset_right = 136.0
-offset_bottom = -18.0
+offset_bottom = 110.0
 text = "2x"
-
-[node name="GameSpeedFourButton" type="Button" parent="GameSpeed"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 144.0
-offset_top = -64.0
-offset_right = 200.0
-offset_bottom = -18.0
-text = "4x"
 
 [node name="WinPanel" type="Panel" parent="."]
 layout_mode = 1

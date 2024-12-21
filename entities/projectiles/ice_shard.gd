@@ -7,6 +7,7 @@ var rot_in_rads: float
 var exploded: bool = false
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
+@onready var lifetime_timer: Timer = $LifetimeTimer
 
 static func create(_angle: float) -> IceShard:
 	var ice_shard: IceShard = load("res://entities/projectiles/scenes/ice_shard.tscn").instantiate()
@@ -17,6 +18,7 @@ static func create(_angle: float) -> IceShard:
 func _ready() -> void:
 	rotation = rot_in_rads + (PI * 0.5)
 	body_entered.connect(_body_entered)
+	lifetime_timer.timeout.connect(die)
 
 func _process(delta: float) -> void:
 	if exploded:
@@ -25,7 +27,7 @@ func _process(delta: float) -> void:
 	position += velocity * speed * delta
 
 func _body_entered(body: Node2D) -> void:
-	if body.is_in_group("tower"):
+	if body.is_in_group("tower") and not body.is_iced:
 		body.set_iced()
 		exploded = true
 		anim.play("die")

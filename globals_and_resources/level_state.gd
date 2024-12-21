@@ -22,5 +22,4 @@ func reset_level_state(_level: int, start_gold: int) -> void:
 	tower_selection = null
 	#gold = start_gold
 	gold = start_gold + 20000
-	#gold = 20000
 	earned_rp = 0

@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c81l5yc545pt8"]
+[gd_scene load_steps=6 format=3 uid="uid://c81l5yc545pt8"]
 
 [ext_resource type="Script" path="res://entities/towers/tower_archer.gd" id="1_mts67"]
-[ext_resource type="Texture2D" uid="uid://cwn5m0itcafwu" path="res://entities/towers/tower_archer.png" id="2_kj3rw"]
+[ext_resource type="Texture2D" uid="uid://did7hoq838a5m" path="res://entities/towers/tower_archer_2.png" id="2_66jym"]
+[ext_resource type="Texture2D" uid="uid://beeykolxn3a5y" path="res://assets/progress-bar-circle.png" id="3_qbncw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bccpg"]
-size = Vector2(24, 26)
+size = Vector2(24, 23)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gwupi"]
 resource_local_to_scene = true
@@ -15,11 +16,11 @@ collision_layer = 2
 script = ExtResource("1_mts67")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_kj3rw")
+texture = ExtResource("2_66jym")
 hframes = 5
 
 [node name="ClickBoxCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_bccpg")
 
 [node name="EnemyTargeter" type="Area2D" parent="."]
@@ -33,4 +34,21 @@ wait_time = 1.4
 one_shot = true
 
 [node name="IceTimer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = 11.0
+offset_top = -17.0
+offset_right = 20.0
+offset_bottom = -8.0
+max_value = 1.0
+step = 0.01
+value = 0.4
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = ExtResource("3_qbncw")
+texture_progress = ExtResource("3_qbncw")
+tint_under = Color(0, 0, 0, 0.443137)
+tint_over = Color(0, 1, 1, 1)
+tint_progress = Color(0, 0.756863, 0.0117647, 1)

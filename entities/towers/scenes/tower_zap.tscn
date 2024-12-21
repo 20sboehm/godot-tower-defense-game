@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7kwstgenddjb"]
+[gd_scene load_steps=6 format=3 uid="uid://c7kwstgenddjb"]
 
 [ext_resource type="Script" path="res://entities/towers/tower_zap.gd" id="1_0o4b5"]
 [ext_resource type="Texture2D" uid="uid://db51013odxg5a" path="res://entities/towers/tower_zap.png" id="2_6ef54"]
+[ext_resource type="Texture2D" uid="uid://beeykolxn3a5y" path="res://assets/progress-bar-circle.png" id="3_i24qg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3q56i"]
-size = Vector2(24, 28)
+size = Vector2(20, 28)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dsb8l"]
 resource_local_to_scene = true
@@ -17,8 +18,10 @@ script = ExtResource("1_0o4b5")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_6ef54")
 hframes = 5
+frame = 1
 
 [node name="ClickboxCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_3q56i")
 
 [node name="EnemyTargeter" type="Area2D" parent="."]
@@ -29,9 +32,26 @@ position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_dsb8l")
 
 [node name="AttackTimer" type="Timer" parent="EnemyTargeter"]
+one_shot = true
 
 [node name="ChainTimer" type="Timer" parent="EnemyTargeter"]
 wait_time = 0.05
 one_shot = true
 
-[node name="IcedTimer" type="Timer" parent="."]
+[node name="IceTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = 11.0
+offset_top = -17.0
+offset_right = 20.0
+offset_bottom = -8.0
+max_value = 1.0
+step = 0.01
+value = 0.4
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = ExtResource("3_i24qg")
+texture_progress = ExtResource("3_i24qg")
+tint_under = Color(0, 0, 0, 0.443137)
+tint_progress = Color(2.02149e-06, 0.755407, 0.0124455, 1)

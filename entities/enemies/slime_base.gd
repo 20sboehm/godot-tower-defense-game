@@ -38,7 +38,6 @@ func connect_signals() -> void:
 	zap_timer.timeout.connect(_on_zap_timer_timeout)
 
 func take_damage(damage: int) -> void:
-	print(damage)
 	health -= damage
 	if health <= 0:
 		is_dead = true

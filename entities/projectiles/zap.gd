@@ -10,7 +10,7 @@ var zap_range: float = 100
 # Hex values for lightning: fcfa00, ddb200
 
 static func create(target: Area2D, pos: Vector2, zap_distance: float, rot_in_rads: float) -> Zap:
-	var zap: Zap = load("res://entities/projectiles/zap.tscn").instantiate()
+	var zap: Zap = load("res://entities/projectiles/scenes/zap.tscn").instantiate()
 	zap.curr_enemy_hitbox = target
 	zap.position = pos
 	zap.scale.x = zap_distance / 16

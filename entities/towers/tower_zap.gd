@@ -13,11 +13,13 @@ var chain_range: int = 70
 func _ready() -> void:
 	tower_type = GameC.TowerType.ZAP
 	initialize_tower()
-	set_tower_level(level)
-	#attack_timer.timeout.connect(_on_attack_timer_timeout)
+	set_tower_level(lvl)
 	chain_timer.timeout.connect(_on_chain_timer_timeout)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	cooldown_indicator.value = atk_cooldown_progress / atk_cooldown
+	handle_attack_cooldown(delta)
+	
 	if not attack_ready:
 		return
 	
@@ -44,7 +46,6 @@ func _process(_delta: float) -> void:
 	chain_timer.start()
 	
 	attack_ready = false
-	attack_timer.start()
 
 func _on_chain_timer_timeout() -> void:
 	chain_zaps()
@@ -85,10 +86,7 @@ func chain_zaps() -> void:
 	
 	chain_timer.start()
 
-func set_tower_level(lvl: int) -> void:
-	level = lvl
-	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
-	attack_timer.wait_time = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_rate"]
-	total_zaps = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["zap_count"]
-	collision_shape.shape.radius = tower_range
-	sprite.frame = lvl - 1
+func set_tower_level(_lvl: int) -> void:
+	set_general_tower_level_data(_lvl)
+	total_zaps = GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["zap_count"]
+

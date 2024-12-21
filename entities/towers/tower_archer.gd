@@ -4,10 +4,12 @@ extends Tower
 func _ready() -> void:
 	tower_type = GameC.TowerType.ARCHER
 	initialize_tower()
-	set_tower_level(level)
-	#attack_timer.timeout.connect(_on_attack_timer_timeout)
+	set_tower_level(lvl)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	cooldown_indicator.value = atk_cooldown_progress / atk_cooldown
+	handle_attack_cooldown(delta)
+	
 	if not attack_ready:
 		return
 	
@@ -23,17 +25,12 @@ func _process(_delta: float) -> void:
 	
 	var new_arrow: Arrow = Arrow.create(
 		angle_to_target,
-		GameC.t_data[tower_type]["lvl_data"][level]["stats"]["pierce"],
+		GameC.t_data[tower_type]["lvl_data"][lvl]["stats"]["pierce"],
 		tower_range
 	)
-	enemy_targeter.add_child(new_arrow)
 	
+	enemy_targeter.add_child(new_arrow)
 	attack_ready = false
-	attack_timer.start()
 
-func set_tower_level(lvl: int) -> void:
-	level = lvl
-	attack_timer.wait_time = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_rate"]
-	tower_range = GameC.t_data[tower_type]["lvl_data"][level]["stats"]["attack_range"]
-	collision_shape.shape.radius = tower_range
-	sprite.frame = lvl - 1
+func set_tower_level(_lvl: int) -> void:
+	set_general_tower_level_data(_lvl)

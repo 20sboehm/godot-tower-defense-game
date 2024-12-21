@@ -1,7 +1,7 @@
 class_name Fireball
 extends Area2D
 
-var fireball_explosion: PackedScene = preload("res://entities/projectiles/fireball_explosion.tscn")
+var fireball_explosion: PackedScene = preload("res://entities/projectiles/scenes/fireball_explosion.tscn")
 
 # Ensure the fireball doesn't spawn multiple explosions before it gets freed
 var deactivated: bool = false
@@ -15,7 +15,7 @@ var level: int
 @onready var lifetime_timer: Timer = $LifetimeTimer
 
 static func create(angle_from_tower_in_rads: float, _range: float, _level: int) -> Fireball:
-	var fireball: Fireball = load("res://entities/projectiles/fireball.tscn").instantiate()
+	var fireball: Fireball = load("res://entities/projectiles/scenes/fireball.tscn").instantiate()
 	fireball.velocity = Vector2.RIGHT.rotated(angle_from_tower_in_rads)
 	fireball.rot_in_rads = angle_from_tower_in_rads
 	fireball.proj_range = _range

@@ -1,7 +1,8 @@
 class_name Arrow
 extends Area2D
 
-var speed: int = 300
+#var speed: int = 300
+var speed: int = 400
 var velocity: Vector2
 var rot_in_rads: float
 var pierce: int

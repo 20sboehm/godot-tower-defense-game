@@ -25,6 +25,7 @@ _data = {
 point_count = 18
 
 [node name="Level2" type="Node2D"]
+z_index = 30
 script = ExtResource("1_d7n3l")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
